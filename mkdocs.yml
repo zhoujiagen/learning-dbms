@@ -1,0 +1,127 @@
+site_name: Doc Snippet
+site_author: 'zhoujiagen@gmail.com'
+copyright: MIT
+repo_name: doc-snippet
+repo_url: https://github.com/zhoujiagen/doc-snippet
+
+nav:
+    - Home: index.md
+    - '参考文献': references.md
+    - 'Refernces of Database Internals': references.md
+    - 'File & Memory':
+      - 'Dynamic storage allocation': file/dynamic_storage_allocation.md
+    - 'Data formats, algorithms and protocols':
+      - 'Home': data/index.md
+      - 'Examples':
+        - 'MySQL':
+          - 'Data Type': data/examples/mysql/mysql-data-type.md
+          - '.frm': data/examples/mysql/mysql-frm-file-format.md
+          - 'InnoDB Record and Page Structure': data/examples/mysql/mysql-innodb-record-and-page-structure.md
+          - 'Client/Server Protocol': data/examples/mysql/mysql-client-server-protocol.md
+          - 'Binary Log': data/examples/mysql/mysql-binary-log.md
+    - Parser:
+      - 'Modeling in RDFS and OWL': parser/rdfs_owl.md
+      - 'SPARQL': parser/sparql.md
+      - 'JavaCC': parser/javacc.md
+    - MySQL:
+      - '5.7':
+        - 'Home': mysql/5.7/rtfsc/index.md
+        - 'Static':
+          - 'api': mysql/5.7/rtfsc/static/api.md
+          - 'btr': mysql/5.7/rtfsc/static/btr.md
+          - 'buf': mysql/5.7/rtfsc/static/buf.md
+          - 'data': mysql/5.7/rtfsc/static/data.md
+          - 'dict': mysql/5.7/rtfsc/static/dict.md
+          - 'eval': mysql/5.7/rtfsc/static/eval.md
+          - 'fil': mysql/5.7/rtfsc/static/fil.md
+          - 'fsp': mysql/5.7/rtfsc/static/fsp.md
+          - 'fts': mysql/5.7/rtfsc/static/fts.md
+          - 'fut': mysql/5.7/rtfsc/static/fut.md
+          - 'gis': mysql/5.7/rtfsc/static/gis.md
+          - 'ha': mysql/5.7/rtfsc/static/ha.md
+          - 'handler': mysql/5.7/rtfsc/static/handler.md
+          - 'ibuf': mysql/5.7/rtfsc/static/ibuf.md
+          - 'include': mysql/5.7/rtfsc/static/include.md
+          - 'lock': mysql/5.7/rtfsc/static/lock.md
+          - 'log': mysql/5.7/rtfsc/static/log.md
+          - 'mach': mysql/5.7/rtfsc/static/mach.md
+          - 'mem': mysql/5.7/rtfsc/static/mem.md
+          - 'mtr': mysql/5.7/rtfsc/static/mtr.md
+          - 'os': mysql/5.7/rtfsc/static/os.md
+          - 'page': mysql/5.7/rtfsc/static/page.md
+          - 'pars': mysql/5.7/rtfsc/static/pars.md
+          - 'que': mysql/5.7/rtfsc/static/que.md
+          - 'read': mysql/5.7/rtfsc/static/read.md
+          - 'rem': mysql/5.7/rtfsc/static/rem.md
+          - 'row': mysql/5.7/rtfsc/static/row.md
+          - 'srv': mysql/5.7/rtfsc/static/srv.md
+          - 'sync': mysql/5.7/rtfsc/static/sync.md
+          - 'trx': mysql/5.7/rtfsc/static/trx.md
+          - 'usr': mysql/5.7/rtfsc/static/usr.md
+          - 'ut': mysql/5.7/rtfsc/static/ut.md
+        - 'Behaviour':
+          - 'INSERT': mysql/5.7/rtfsc/behaviour/insert.md
+          - 'SELECT': mysql/5.7/rtfsc/behaviour/select.md
+          - 'INSERT INTO SELECT': mysql/5.7/rtfsc/behaviour/insert_into_select.md
+      - '8.0':
+        - 'Notes of Manual': mysql/8.0/note_of_manual.md
+        - 'Source Build': mysql/8.0/mysql_compile.md
+        - 'mysqld': mysql/8.0/mysql_mysqld.md
+        - 'Data Models': mysql/8.0/mysql_data_model.md
+        - 'Routines': mysql/8.0/mysql_routines.md
+        - 'InnoDB': mysql/8.0/mysql_innodb.md
+        - 'Explain': mysql/8.0/mysql_explain.md
+    - 'Text and Graph':
+        - 'WordNet': graph/wordnet.md
+        - 'Lemon':  graph/lemon.md
+        - 'An Introduction to Linguistics': graph/linguistics.md
+        - 'Dgraph': graph/dgraph.md
+        - 'JanusGraph': graph/janusgraph.md
+        - 'Apache Jena': graph/jena.md
+        - 'SPARQL': graph/sparql.md
+        - 'AllegroGraph': graph/allegrograph.md
+        - 'Apache Solr': graph/solr.md
+        - 'Apache TinkerPop': graph/tinkerpop.md
+        - 'ElasticSearch': graph/elasticsearch.md
+        - 'Benchmark': graph/graph-benchmark.md
+    - 'ClickHouse': clickhouse.md
+    - 'Presto': presto.md
+
+#theme: readthedocs
+theme:
+  name: material
+extra:
+  search:
+    language: 'en'
+markdown_extensions:
+  - admonition
+  - codehilite:
+      linenums: true
+      guess_lang: False
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex # LaTeX math equations
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - footnotes
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
+  - markdown_inline_graphviz
+
+extra_javascript:
+  - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+  - https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js
