@@ -1,17 +1,20 @@
-site_name: Doc Snippet
+site_name: DBMS Hacks
 site_author: 'zhoujiagen@gmail.com'
 copyright: MIT
-repo_name: doc-snippet
-repo_url: https://github.com/zhoujiagen/doc-snippet
+repo_name: dbms-hacks
+repo_url: https://github.com/zhoujiagen/learning-dbms
 
 nav:
     - Home: index.md
-    - '参考文献': references.md
-    - 'Refernces of Database Internals': references.md
-    - 'File & Memory':
-      - 'Dynamic storage allocation': file/dynamic_storage_allocation.md
+    - 'References':
+      - 'Database Internals': references/Database-Internals.md
+      - 'Designing Data-Intensive Applications': references/Designing-Data-Intensive-Applications.md
+    - 'Application':
+      - 'Designing Data-Intensive Applications': application/designing-data-intensive.md
     - 'Data formats, algorithms and protocols':
       - 'Home': data/index.md
+      - 'Dynamic storage allocation': data/dynamic_storage_allocation.md
+      - 'Algorithms and data structures for external memory': data/algorithms_and_data_structures_for_external_memory.md
       - 'Examples':
         - 'MySQL':
           - 'Data Type': data/examples/mysql/mysql-data-type.md
@@ -19,73 +22,103 @@ nav:
           - 'InnoDB Record and Page Structure': data/examples/mysql/mysql-innodb-record-and-page-structure.md
           - 'Client/Server Protocol': data/examples/mysql/mysql-client-server-protocol.md
           - 'Binary Log': data/examples/mysql/mysql-binary-log.md
-    - Parser:
-      - 'Modeling in RDFS and OWL': parser/rdfs_owl.md
-      - 'SPARQL': parser/sparql.md
-      - 'JavaCC': parser/javacc.md
-    - MySQL:
-      - '5.7':
-        - 'Home': mysql/5.7/rtfsc/index.md
+    - Query:
+      - Parse:
+        - 'Flex and Bison':
+          - 'Tutorial': query/parse/flex_bison/flex_and_bison.md
+          - 'Flex Specification': query/parse/flex_bison/flex_spec.md
+          - 'Bison Specification': query/parse/flex_bison/bison_spec.md
+        - 'ANTLR': query/parse/antlr.md
+        - 'Modeling in RDFS and OWL': query/parse/rdfs_owl.md
+        - 'SPARQL': query/parse/sparql.md
+        - 'JavaCC': query/parse/javacc.md
+        - 'Logica': query/parse/logica.md
+      - Optimization:
+        - 'Query Optimization': query/optimization/query-optimization.md
+    - 'Transaction':
+      - 'ARIES': trx/aries.md
+    - Implemantation:
+      - 'MySQL 5.7':
+        - 'Home': impl/mysql/5.7/rtfsc/index.md
         - 'Static':
-          - 'api': mysql/5.7/rtfsc/static/api.md
-          - 'btr': mysql/5.7/rtfsc/static/btr.md
-          - 'buf': mysql/5.7/rtfsc/static/buf.md
-          - 'data': mysql/5.7/rtfsc/static/data.md
-          - 'dict': mysql/5.7/rtfsc/static/dict.md
-          - 'eval': mysql/5.7/rtfsc/static/eval.md
-          - 'fil': mysql/5.7/rtfsc/static/fil.md
-          - 'fsp': mysql/5.7/rtfsc/static/fsp.md
-          - 'fts': mysql/5.7/rtfsc/static/fts.md
-          - 'fut': mysql/5.7/rtfsc/static/fut.md
-          - 'gis': mysql/5.7/rtfsc/static/gis.md
-          - 'ha': mysql/5.7/rtfsc/static/ha.md
-          - 'handler': mysql/5.7/rtfsc/static/handler.md
-          - 'ibuf': mysql/5.7/rtfsc/static/ibuf.md
-          - 'include': mysql/5.7/rtfsc/static/include.md
-          - 'lock': mysql/5.7/rtfsc/static/lock.md
-          - 'log': mysql/5.7/rtfsc/static/log.md
-          - 'mach': mysql/5.7/rtfsc/static/mach.md
-          - 'mem': mysql/5.7/rtfsc/static/mem.md
-          - 'mtr': mysql/5.7/rtfsc/static/mtr.md
-          - 'os': mysql/5.7/rtfsc/static/os.md
-          - 'page': mysql/5.7/rtfsc/static/page.md
-          - 'pars': mysql/5.7/rtfsc/static/pars.md
-          - 'que': mysql/5.7/rtfsc/static/que.md
-          - 'read': mysql/5.7/rtfsc/static/read.md
-          - 'rem': mysql/5.7/rtfsc/static/rem.md
-          - 'row': mysql/5.7/rtfsc/static/row.md
-          - 'srv': mysql/5.7/rtfsc/static/srv.md
-          - 'sync': mysql/5.7/rtfsc/static/sync.md
-          - 'trx': mysql/5.7/rtfsc/static/trx.md
-          - 'usr': mysql/5.7/rtfsc/static/usr.md
-          - 'ut': mysql/5.7/rtfsc/static/ut.md
+          - 'Server':
+            - 'Architecture': impl/mysql/5.7/rtfsc/static/server/index.md
+            - 'Global Variables': impl/mysql/5.7/rtfsc/static/server/global-vars.md
+            - 'THD': impl/mysql/5.7/rtfsc/static/server/THD.md
+            - 'NET': impl/mysql/5.7/rtfsc/static/server/NET.md
+            - 'TABLE': impl/mysql/5.7/rtfsc/static/server/TABLE.md
+            - 'Field': impl/mysql/5.7/rtfsc/static/server/Field.md
+            - 'Utility': impl/mysql/5.7/rtfsc/static/server/utility.md
+            - 'mysys': impl/mysql/5.7/rtfsc/static/server/mysys.md
+            - 'sql':
+              - 'Handler': impl/mysql/5.7/rtfsc/static/server/sql/handler.md
+          - 'Innobase':
+            - 'include': impl/mysql/5.7/rtfsc/static/innobase/include.md
+            - 'api': impl/mysql/5.7/rtfsc/static/innobase/api.md
+            - 'btr': impl/mysql/5.7/rtfsc/static/innobase/btr.md
+            - 'buf': impl/mysql/5.7/rtfsc/static/innobase/buf.md
+            - 'data': impl/mysql/5.7/rtfsc/static/innobase/data.md
+            - 'dict': impl/mysql/5.7/rtfsc/static/innobase/dict.md
+            - 'eval': impl/mysql/5.7/rtfsc/static/innobase/eval.md
+            - 'fil': impl/mysql/5.7/rtfsc/static/innobase/fil.md
+            - 'fsp': impl/mysql/5.7/rtfsc/static/innobase/fsp.md
+            - 'fts': impl/mysql/5.7/rtfsc/static/innobase/fts.md
+            - 'fut': impl/mysql/5.7/rtfsc/static/innobase/fut.md
+            - 'gis': impl/mysql/5.7/rtfsc/static/innobase/gis.md
+            - 'ha': impl/mysql/5.7/rtfsc/static/innobase/ha.md
+            - 'handler': impl/mysql/5.7/rtfsc/static/innobase/handler.md
+            - 'ibuf': impl/mysql/5.7/rtfsc/static/innobase/ibuf.md
+            - 'lock': impl/mysql/5.7/rtfsc/static/innobase/lock.md
+            - 'log': impl/mysql/5.7/rtfsc/static/innobase/log.md
+            - 'mach': impl/mysql/5.7/rtfsc/static/innobase/mach.md
+            - 'mem': impl/mysql/5.7/rtfsc/static/innobase/mem.md
+            - 'mtr': impl/mysql/5.7/rtfsc/static/innobase/mtr.md
+            - 'os': impl/mysql/5.7/rtfsc/static/innobase/os.md
+            - 'page': impl/mysql/5.7/rtfsc/static/innobase/page.md
+            - 'pars': impl/mysql/5.7/rtfsc/static/innobase/pars.md
+            - 'que': impl/mysql/5.7/rtfsc/static/innobase/que.md
+            - 'read': impl/mysql/5.7/rtfsc/static/innobase/read.md
+            - 'rem': impl/mysql/5.7/rtfsc/static/innobase/rem.md
+            - 'row': impl/mysql/5.7/rtfsc/static/innobase/row.md
+            - 'srv': impl/mysql/5.7/rtfsc/static/innobase/srv.md
+            - 'sync': impl/mysql/5.7/rtfsc/static/innobase/sync.md
+            - 'trx': impl/mysql/5.7/rtfsc/static/innobase/trx.md
+            - 'usr': impl/mysql/5.7/rtfsc/static/innobase/usr.md
+            - 'ut': impl/mysql/5.7/rtfsc/static/innobase/ut.md
+          - 'Performance Schema':
+            - 'cursor': impl/mysql/5.7/rtfsc/static/perfschema/cursor.md
+            - 'ha_perfschema': impl/mysql/5.7/rtfsc/static/perfschema/ha_perfschema.md
+            - 'pfs': impl/mysql/5.7/rtfsc/static/perfschema/pfs.md
+            - 'table': impl/mysql/5.7/rtfsc/static/perfschema/table.md
         - 'Behaviour':
-          - 'INSERT': mysql/5.7/rtfsc/behaviour/insert.md
-          - 'SELECT': mysql/5.7/rtfsc/behaviour/select.md
-          - 'INSERT INTO SELECT': mysql/5.7/rtfsc/behaviour/insert_into_select.md
-      - '8.0':
-        - 'Notes of Manual': mysql/8.0/note_of_manual.md
-        - 'Source Build': mysql/8.0/mysql_compile.md
-        - 'mysqld': mysql/8.0/mysql_mysqld.md
-        - 'Data Models': mysql/8.0/mysql_data_model.md
-        - 'Routines': mysql/8.0/mysql_routines.md
-        - 'InnoDB': mysql/8.0/mysql_innodb.md
-        - 'Explain': mysql/8.0/mysql_explain.md
-    - 'Text and Graph':
-        - 'WordNet': graph/wordnet.md
-        - 'Lemon':  graph/lemon.md
-        - 'An Introduction to Linguistics': graph/linguistics.md
-        - 'Dgraph': graph/dgraph.md
-        - 'JanusGraph': graph/janusgraph.md
-        - 'Apache Jena': graph/jena.md
-        - 'SPARQL': graph/sparql.md
-        - 'AllegroGraph': graph/allegrograph.md
-        - 'Apache Solr': graph/solr.md
-        - 'Apache TinkerPop': graph/tinkerpop.md
-        - 'ElasticSearch': graph/elasticsearch.md
-        - 'Benchmark': graph/graph-benchmark.md
-    - 'ClickHouse': clickhouse.md
-    - 'Presto': presto.md
+          - 'Tracing': impl/mysql/5.7/rtfsc/behaviour/trace.md
+          - 'Transaction': impl/mysql/5.7/rtfsc/behaviour/trx.md
+          - 'INSERT': impl/mysql/5.7/rtfsc/behaviour/insert.md
+          - 'SELECT': impl/mysql/5.7/rtfsc/behaviour/select.md
+          - 'INSERT INTO SELECT': impl/mysql/5.7/rtfsc/behaviour/insert_into_select.md
+      - 'MySQL 8.0':
+        - 'Notes of Manual': impl/mysql/8.0/note_of_manual.md
+        - 'Source Build': impl/mysql/8.0/mysql_compile.md
+        - 'mysqld': impl/mysql/8.0/mysql_mysqld.md
+        - 'Data Models': impl/mysql/8.0/mysql_data_model.md
+        - 'Routines': impl/mysql/8.0/mysql_routines.md
+        - 'InnoDB': impl/mysql/8.0/mysql_innodb.md
+        - 'Explain': impl/mysql/8.0/mysql_explain.md
+      - 'Text and Graph':
+          - 'WordNet': impl/graph/wordnet.md
+          - 'Lemon':  impl/graph/lemon.md
+          - 'An Introduction to Linguistics': impl/graph/linguistics.md
+          - 'Dgraph': impl/graph/dgraph.md
+          - 'JanusGraph': impl/graph/janusgraph.md
+          - 'Apache Jena': impl/graph/jena.md
+          - 'SPARQL': impl/graph/sparql.md
+          - 'AllegroGraph': impl/graph/allegrograph.md
+          - 'Apache Solr': impl/graph/solr.md
+          - 'Apache TinkerPop': impl/graph/tinkerpop.md
+          - 'ElasticSearch': impl/graph/elasticsearch.md
+          - 'Benchmark': impl/graph/graph-benchmark.md
+      - 'ClickHouse': impl/clickhouse.md
+      - 'Presto': impl/presto.md
 
 #theme: readthedocs
 theme:
