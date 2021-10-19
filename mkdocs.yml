@@ -24,86 +24,82 @@ nav:
           - 'Binary Log': data/examples/mysql/mysql-binary-log.md
     - Query:
       - Parse:
-        - 'Flex and Bison':
-          - 'Tutorial': query/parse/flex_bison/flex_and_bison.md
-          - 'Flex Specification': query/parse/flex_bison/flex_spec.md
-          - 'Bison Specification': query/parse/flex_bison/bison_spec.md
-        - 'ANTLR': query/parse/antlr.md
         - 'Modeling in RDFS and OWL': query/parse/rdfs_owl.md
         - 'SPARQL': query/parse/sparql.md
-        - 'JavaCC': query/parse/javacc.md
         - 'Logica': query/parse/logica.md
       - Optimization:
         - 'Query Optimization': query/optimization/query-optimization.md
     - 'Transaction':
       - 'ARIES': trx/aries.md
     - Implemantation:
+      - 'Manual':
+        - 'MySQL Manual': impl/manual/mysql-8.0-manual.md
+        - 'MySQL Explain': impl/manual/mysql-explain.md
+        - 'MySQL InnoDB Locks': impl/manual/mysql-innodb-locks.md
       - 'MySQL 5.7':
-        - 'Home': impl/mysql/5.7/rtfsc/index.md
+        - 'Home': impl/mysql-5.7/index.md
         - 'Static':
           - 'Server':
-            - 'Architecture': impl/mysql/5.7/rtfsc/static/server/index.md
-            - 'Global Variables': impl/mysql/5.7/rtfsc/static/server/global-vars.md
-            - 'THD': impl/mysql/5.7/rtfsc/static/server/THD.md
-            - 'NET': impl/mysql/5.7/rtfsc/static/server/NET.md
-            - 'TABLE': impl/mysql/5.7/rtfsc/static/server/TABLE.md
-            - 'Field': impl/mysql/5.7/rtfsc/static/server/Field.md
-            - 'Utility': impl/mysql/5.7/rtfsc/static/server/utility.md
-            - 'mysys': impl/mysql/5.7/rtfsc/static/server/mysys.md
+            - 'Architecture': impl/mysql-5.7/static/server/index.md
+            - 'Global Variables': impl/mysql-5.7/static/server/global-vars.md
+            - 'THD': impl/mysql-5.7/static/server/THD.md
+            - 'NET': impl/mysql-5.7/static/server/NET.md
+            - 'TABLE': impl/mysql-5.7/static/server/TABLE.md
+            - 'Field': impl/mysql-5.7/static/server/Field.md
+            - 'Utility': impl/mysql-5.7/static/server/utility.md
+            - 'mysys': impl/mysql-5.7/static/server/mysys.md
             - 'sql':
-              - 'Handler': impl/mysql/5.7/rtfsc/static/server/sql/handler.md
+              - 'Handler': impl/mysql-5.7/static/server/sql/handler.md
           - 'Innobase':
-            - 'include': impl/mysql/5.7/rtfsc/static/innobase/include.md
-            - 'api': impl/mysql/5.7/rtfsc/static/innobase/api.md
-            - 'btr': impl/mysql/5.7/rtfsc/static/innobase/btr.md
-            - 'buf': impl/mysql/5.7/rtfsc/static/innobase/buf.md
-            - 'data': impl/mysql/5.7/rtfsc/static/innobase/data.md
-            - 'dict': impl/mysql/5.7/rtfsc/static/innobase/dict.md
-            - 'eval': impl/mysql/5.7/rtfsc/static/innobase/eval.md
-            - 'fil': impl/mysql/5.7/rtfsc/static/innobase/fil.md
-            - 'fsp': impl/mysql/5.7/rtfsc/static/innobase/fsp.md
-            - 'fts': impl/mysql/5.7/rtfsc/static/innobase/fts.md
-            - 'fut': impl/mysql/5.7/rtfsc/static/innobase/fut.md
-            - 'gis': impl/mysql/5.7/rtfsc/static/innobase/gis.md
-            - 'ha': impl/mysql/5.7/rtfsc/static/innobase/ha.md
-            - 'handler': impl/mysql/5.7/rtfsc/static/innobase/handler.md
-            - 'ibuf': impl/mysql/5.7/rtfsc/static/innobase/ibuf.md
-            - 'lock': impl/mysql/5.7/rtfsc/static/innobase/lock.md
-            - 'log': impl/mysql/5.7/rtfsc/static/innobase/log.md
-            - 'mach': impl/mysql/5.7/rtfsc/static/innobase/mach.md
-            - 'mem': impl/mysql/5.7/rtfsc/static/innobase/mem.md
-            - 'mtr': impl/mysql/5.7/rtfsc/static/innobase/mtr.md
-            - 'os': impl/mysql/5.7/rtfsc/static/innobase/os.md
-            - 'page': impl/mysql/5.7/rtfsc/static/innobase/page.md
-            - 'pars': impl/mysql/5.7/rtfsc/static/innobase/pars.md
-            - 'que': impl/mysql/5.7/rtfsc/static/innobase/que.md
-            - 'read': impl/mysql/5.7/rtfsc/static/innobase/read.md
-            - 'rem': impl/mysql/5.7/rtfsc/static/innobase/rem.md
-            - 'row': impl/mysql/5.7/rtfsc/static/innobase/row.md
-            - 'srv': impl/mysql/5.7/rtfsc/static/innobase/srv.md
-            - 'sync': impl/mysql/5.7/rtfsc/static/innobase/sync.md
-            - 'trx': impl/mysql/5.7/rtfsc/static/innobase/trx.md
-            - 'usr': impl/mysql/5.7/rtfsc/static/innobase/usr.md
-            - 'ut': impl/mysql/5.7/rtfsc/static/innobase/ut.md
+            - 'include': impl/mysql-5.7/static/innobase/include.md
+            - 'api': impl/mysql-5.7/static/innobase/api.md
+            - 'btr': impl/mysql-5.7/static/innobase/btr.md
+            - 'buf': impl/mysql-5.7/static/innobase/buf.md
+            - 'data': impl/mysql-5.7/static/innobase/data.md
+            - 'dict': impl/mysql-5.7/static/innobase/dict.md
+            - 'eval': impl/mysql-5.7/static/innobase/eval.md
+            - 'fil': impl/mysql-5.7/static/innobase/fil.md
+            - 'fsp': impl/mysql-5.7/static/innobase/fsp.md
+            - 'fts': impl/mysql-5.7/static/innobase/fts.md
+            - 'fut': impl/mysql-5.7/static/innobase/fut.md
+            - 'gis': impl/mysql-5.7/static/innobase/gis.md
+            - 'ha': impl/mysql-5.7/static/innobase/ha.md
+            - 'handler': impl/mysql-5.7/static/innobase/handler.md
+            - 'ibuf': impl/mysql-5.7/static/innobase/ibuf.md
+            - 'lock': impl/mysql-5.7/static/innobase/lock.md
+            - 'log': impl/mysql-5.7/static/innobase/log.md
+            - 'mach': impl/mysql-5.7/static/innobase/mach.md
+            - 'mem': impl/mysql-5.7/static/innobase/mem.md
+            - 'mtr': impl/mysql-5.7/static/innobase/mtr.md
+            - 'os': impl/mysql-5.7/static/innobase/os.md
+            - 'page': impl/mysql-5.7/static/innobase/page.md
+            - 'pars': impl/mysql-5.7/static/innobase/pars.md
+            - 'que': impl/mysql-5.7/static/innobase/que.md
+            - 'read': impl/mysql-5.7/static/innobase/read.md
+            - 'rem': impl/mysql-5.7/static/innobase/rem.md
+            - 'row': impl/mysql-5.7/static/innobase/row.md
+            - 'srv': impl/mysql-5.7/static/innobase/srv.md
+            - 'sync': impl/mysql-5.7/static/innobase/sync.md
+            - 'trx': impl/mysql-5.7/static/innobase/trx.md
+            - 'usr': impl/mysql-5.7/static/innobase/usr.md
+            - 'ut': impl/mysql-5.7/static/innobase/ut.md
           - 'Performance Schema':
-            - 'cursor': impl/mysql/5.7/rtfsc/static/perfschema/cursor.md
-            - 'ha_perfschema': impl/mysql/5.7/rtfsc/static/perfschema/ha_perfschema.md
-            - 'pfs': impl/mysql/5.7/rtfsc/static/perfschema/pfs.md
-            - 'table': impl/mysql/5.7/rtfsc/static/perfschema/table.md
+            - 'cursor': impl/mysql-5.7/static/perfschema/cursor.md
+            - 'ha_perfschema': impl/mysql-5.7/static/perfschema/ha_perfschema.md
+            - 'pfs': impl/mysql-5.7/static/perfschema/pfs.md
+            - 'table': impl/mysql-5.7/static/perfschema/table.md
         - 'Behaviour':
-          - 'Tracing': impl/mysql/5.7/rtfsc/behaviour/trace.md
-          - 'Transaction': impl/mysql/5.7/rtfsc/behaviour/trx.md
-          - 'INSERT': impl/mysql/5.7/rtfsc/behaviour/insert.md
-          - 'SELECT': impl/mysql/5.7/rtfsc/behaviour/select.md
-          - 'INSERT INTO SELECT': impl/mysql/5.7/rtfsc/behaviour/insert_into_select.md
+          - 'Tracing': impl/mysql-5.7/behaviour/trace.md
+          - 'Transaction': impl/mysql-5.7/behaviour/trx.md
+          - 'INSERT': impl/mysql-5.7/behaviour/insert.md
+          - 'SELECT': impl/mysql-5.7/behaviour/select.md
+          - 'INSERT INTO SELECT': impl/mysql-5.7/behaviour/insert_into_select.md
       - 'MySQL 8.0':
-        - 'Notes of Manual': impl/mysql/8.0/note_of_manual.md
-        - 'Source Build': impl/mysql/8.0/mysql_compile.md
-        - 'mysqld': impl/mysql/8.0/mysql_mysqld.md
-        - 'Data Models': impl/mysql/8.0/mysql_data_model.md
-        - 'Routines': impl/mysql/8.0/mysql_routines.md
-        - 'InnoDB': impl/mysql/8.0/mysql_innodb.md
-        - 'Explain': impl/mysql/8.0/mysql_explain.md
+        - 'Source Build': impl/mysql-8.0/mysql_compile.md
+        - 'mysqld': impl/mysql-8.0/mysql_mysqld.md
+        - 'Data Models': impl/mysql-8.0/mysql_data_model.md
+        - 'Routines': impl/mysql-8.0/mysql_routines.md
+        - 'InnoDB': impl/mysql-8.0/mysql_innodb.md
       - 'Text and Graph':
           - 'WordNet': impl/graph/wordnet.md
           - 'Lemon':  impl/graph/lemon.md
