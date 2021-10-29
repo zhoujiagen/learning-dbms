@@ -33,9 +33,11 @@ nav:
       - 'ARIES': trx/aries.md
     - Implemantation:
       - 'Manual':
-        - 'MySQL Manual': impl/manual/mysql-8.0-manual.md
         - 'MySQL Explain': impl/manual/mysql-explain.md
         - 'MySQL InnoDB Locks': impl/manual/mysql-innodb-locks.md
+        - 'MySQL 5.7 Server Administration': impl/manual/mysql-5.7-server-admin.md
+        - 'MySQL 5.7 InnoDB Storage Engine': impl/manual/mysql-5.7-innodb.md
+        - 'MySQL 8.0 Manual': impl/manual/mysql-8.0-manual.md
       - 'MySQL 5.7':
         - 'Home': impl/mysql-5.7/index.md
         - 'Static':
