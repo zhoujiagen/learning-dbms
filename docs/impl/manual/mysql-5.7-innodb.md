@@ -25,8 +25,32 @@
 ### 14.6.3 Tablespaces
 ### 14.6.4 InnoDB Data Dictionary
 ### 14.6.5 Doublewrite Buffer
+
+The doublewrite buffer is a storage area where InnoDB **writes pages flushed from the buffer pool before writing the pages to their proper positions in the InnoDB data files**. If there is an operating system, storage subsystem, or unexpected mysqld process exit in the middle of a page write, InnoDB can find a good copy of the page from the doublewrite buffer during crash recovery.
+
+Although data is written twice, the doublewrite buffer does not require twice as much I/O overhead or twice as many I/O operations. Data is **written to the doublewrite buffer in a large sequential chunk, with a single fsync() call to the operating system** (except in the case that `innodb_flush_method` is set to `O_DIRECT_NO_FSYNC`).
+
 ### 14.6.6 Redo Log
+
+The redo log is a disk-based data structure **used during crash recovery to correct data written by incomplete transactions**.
+
+During normal operations, the redo log **encodes requests to change table data that result from SQL statements or low-level API calls**. Modifications that did not finish updating the data files before an unexpected shutdown are **replayed** automatically during initialization, and before the connections are accepted.
+
+By default, the redo log is physically represented on disk by two files named `ib_logfile0` and `ib_logfile1`. MySQL writes to the redo log files in a circular fashion.
+
+Data in the redo log is **encoded in terms of records affected**; this data is collectively referred to as **redo**. The passage of data through the redo log is represented by an ever-increasing **LSN** value.
+
 ### 14.6.7 Undo Logs
+
+An undo log is a collection of undo log records associated with a single read-write transaction.
+
+An undo log record contains information about how to **undo the latest change by a transaction to a clustered index record**. If another transaction needs to see the original data as part of a consistent read operation, the unmodified data is retrieved from undo log records.
+
+Undo logs exist within **undo log segments**, which are contained within **rollback segments**.
+
+Rollback segments reside in the system tablespace, in undo tablespaces, and in the temporary tablespace.
+
+Undo logs that reside **in the temporary tablespace** are used for transactions that modify data **in user-defined temporary tables**. These undo logs are **not redo-logged**, as they are not required for crash recovery. They are used only for rollback while the server is running.
 
 ## 14.7 InnoDB Locking and Transaction Model
 ### 14.7.1 InnoDB Locking
@@ -198,7 +222,7 @@
 | 112 | `innodb_large_prefix`                     | 开启时允许`DYNAMIC`或`COMPRESSED`行格式的索引键前缀长度超过767字节(最大3072字节). |
 | 113 | `innodb_limit_optimistic_insert_debug`    | 调试选项, 限制每个B-tree页中记录的数量. |
 | 114 | `innodb_lock_wait_timeout`                | 事务在放弃前等待row lock的秒数. |
-| 115 | `innodb_locks_unsafe_for_binlog`          | 已废弃. 控制搜索和索引扫描时如何使用gap locking. |
+| 115 | `innodb_locks_unsafe_for_binlog`          | 已废弃. 控制搜索和索引扫描时如何使用gap locking.  0 使用gap locking. 1 不使用gap locking.|
 | 116 | `innodb_log_buffer_size`                  | log buffer的大小, 单位字节. |
 | 117 | `innodb_log_checkpoint_now`               | 调试选项, 强制写checkpoint. |
 | 118 | `innodb_log_checksums`                    | 是否开启redo log页的校验和. |
@@ -211,88 +235,88 @@
 | 125 | `Innodb_log_write_requests`               | redo log写请求的数量. |
 | 126 | `Innodb_log_writes`                       | 物理写redo log文件的数量. |
 | 127 | `innodb_lru_scan_depth`                   | 对每个buffer pool instance, page cleaner线程在buffer pool LUR page list中查找需flush的dirty page的位置. |
-| 128 | `innodb_max_dirty_pages_pct`              |  |
-| 129 | `innodb_max_dirty_pages_pct_lwm`          |  |
-| 130 | `innodb_max_purge_lag`                    |  |
-| 131 | `innodb_max_purge_lag_delay`              |  |
-| 132 | `innodb_max_undo_log_size`                |  |
-| 133 | `innodb_merge_threshold_set_all_debug`    |  |
-| 134 | `innodb_monitor_disable`                  |  |
-| 135 | `innodb_monitor_enable`                   |  |
-| 136 | `innodb_monitor_reset`                    |  |
-| 137 | `innodb_monitor_reset_all`                |  |
-| 138 | `Innodb_num_open_files`                   |  |
-| 139 | `innodb_numa_interleave`                  |  |
-| 140 | `innodb_old_blocks_pct`                   |  |
-| 141 | `innodb_old_blocks_time`                  |  |
-| 142 | `innodb_online_alter_log_max_size`        |  |
-| 143 | `innodb_open_files`                       |  |
-| 144 | `innodb_optimize_fulltext_only`           |  |
-| 145 | `Innodb_os_log_fsyncs`                    |  |
-| 146 | `Innodb_os_log_pending_fsyncs`            |  |
-| 147 | `Innodb_os_log_pending_writes`            |  |
-| 148 | `Innodb_os_log_written`                   |  |
-| 149 | `innodb_page_cleaners`                    |  |
-| 150 | `Innodb_page_size`                        |  |
-| 151 | `innodb_page_size`                        |  |
-| 152 | `Innodb_pages_created`                    |  |
-| 153 | `Innodb_pages_read`                       |  |
-| 154 | `Innodb_pages_written`                    |  |
-| 155 | `innodb_print_all_deadlocks`              |  |
-| 156 | `innodb_purge_batch_size`                 |  |
-| 157 | `innodb_purge_rseg_truncate_frequency`    |  |
-| 158 | `innodb_purge_threads`                    |  |
-| 159 | `innodb_random_read_ahead`                |  |
-| 160 | `innodb_read_ahead_threshold`             |  |
-| 161 | `innodb_read_io_threads`                  |  |
-| 162 | `innodb_read_only`                        |  |
-| 163 | `innodb_replication_delay`                |  |
-| 164 | `innodb_rollback_on_timeout`              |  |
-| 165 | `innodb_rollback_segments`                |  |
-| 166 | `Innodb_row_lock_current_waits`           |  |
-| 167 | `Innodb_row_lock_time`                    |  |
-| 168 | `Innodb_row_lock_time_avg`                |  |
-| 169 | `Innodb_row_lock_time_max`                |  |
-| 170 | `Innodb_row_lock_waits`                   |  |
-| 171 | `Innodb_rows_deleted`                     |  |
-| 172 | `Innodb_rows_inserted`                    |  |
-| 173 | `Innodb_rows_read`                        |  |
-| 174 | `Innodb_rows_updated`                     |  |
-| 175 | `innodb_saved_page_number_debug`          |  |
-| 176 | `innodb_sort_buffer_size`                 |  |
-| 177 | `innodb_spin_wait_delay`                  |  |
-| 178 | `innodb_stats_auto_recalc`                |  |
-| 179 | `innodb_stats_include_delete_marked`      |  |
-| 180 | `innodb_stats_method`                     |  |
-| 181 | `innodb_stats_on_metadata`                |  |
-| 182 | `innodb_stats_persistent`                 |  |
-| 183 | `innodb_stats_persistent_sample_pages`    |  |
-| 184 | `innodb_stats_sample_pages`               |  |
-| 185 | `innodb_stats_transient_sample_pages`     |  |
+| 128 | `innodb_max_dirty_pages_pct`              | buffer pool中dirty page的最大百分比. |
+| 129 | `innodb_max_dirty_pages_pct_lwm`          | 预flush buffer pool中dirty page的百分比. |
+| 130 | `innodb_max_purge_lag`                    | 最大的purge lag. |
+| 131 | `innodb_max_purge_lag_delay`              | 由`innodb_max_purge_lag`阈值产生的最大延迟, 单位毫秒. |
+| 132 | `innodb_max_undo_log_size`                | undo表空间的最大大小, 单位字节. |
+| 133 | `innodb_merge_threshold_set_all_debug`    | 覆盖当前dictionary cache中索引的`MERGE_THRESHOLD`的配置. |
+| 134 | `innodb_monitor_disable`                  | 关闭metrics couters. |
+| 135 | `innodb_monitor_enable`                   | 开启metrics counters. |
+| 136 | `innodb_monitor_reset`                    | 重置metrics counters的计数值. |
+| 137 | `innodb_monitor_reset_all`                | 重置metrics counters的所有值. |
+| 138 | `Innodb_num_open_files`                   | 当前打开的文件数量. |
+| 139 | `innodb_numa_interleave`                  | 为分配InnoDB buffer pool开启NUMA interleave memory policy.|
+| 140 | `innodb_old_blocks_pct`                   | buffer pool中用于old block sublist的近似百分比. |
+| 141 | `innodb_old_blocks_time`                  | 指定插入old sublist的block在其首次被访问后, 在被移入new sublist之前需要等待的毫秒数. |
+| 142 | `innodb_online_alter_log_max_size`        | 在表执行inline DDL操作时使用的临时log文件的最大字节数. |
+| 143 | `innodb_open_files`                       | 可以同时打开的`.idb`文件的最大数量. |
+| 144 | `innodb_optimize_fulltext_only`           | - |
+| 145 | `Innodb_os_log_fsyncs`                    | redo log文件上`fsync()`调用的次数. |
+| 146 | `Innodb_os_log_pending_fsyncs`            | redo log文件上pending `fsync()`调用的次数. |
+| 147 | `Innodb_os_log_pending_writes`            | redo log文件上pending 写入的次数. |
+| 148 | `Innodb_os_log_written`                   | 写入redo log文件的字节数. |
+| 149 | `innodb_page_cleaners`                    | flush各buffer pool instance中dirty page的page cleaner线程的数量.|
+| 150 | `Innodb_page_size`                        | 页大小, 默认16KB. |
+| 151 | `innodb_page_size`                        | tablespace中的页大小. 例: 16384, 16KB, 16k. |
+| 152 | `Innodb_pages_created`                    | 表上操作创建的页的数量. |
+| 153 | `Innodb_pages_read`                       | 表上操作从buffer pool中读取的页的数量. |
+| 154 | `Innodb_pages_written`                    | 表上操作写入的页的数量. |
+| 155 | `innodb_print_all_deadlocks`              | 是否在mysqld error log中显示用户事务中出现的所有死锁. |
+| 156 | `innodb_purge_batch_size`                 | purge操作在一个批次中从history list中解析和处理的undo log页的数量. |
+| 157 | `innodb_purge_rseg_truncate_frequency`    | purge系统基于purge被调用的次数来free rollback segment的频率. |
+| 158 | `innodb_purge_threads`                    | 专用于purge操作的背景线程的数量. |
+| 159 | `innodb_random_read_ahead`                | 是否开启优化IO的read-ahead技术. |
+| 160 | `innodb_read_ahead_threshold`             | 控制用于prefetch page到buffer pool中的线性read-ahead的敏感度. |
+| 161 | `innodb_read_io_threads`                  | 用于读操作的IO线程的数量. |
+| 162 | `innodb_read_only`                        | 是否开启只读模式. |
+| 163 | `innodb_replication_delay`                | 达到`innodb_thread_concurrency`时replica server上replication线程延迟毫秒数. |
+| 164 | `innodb_rollback_on_timeout`              | 事务超时时是否abort和roll back整个事务. |
+| 165 | `innodb_rollback_segments`                | 用于事务中生成undo记录的rollback segment的数量. |
+| 166 | `Innodb_row_lock_current_waits`           | 当前在等待表上操作的row lock数量. |
+| 167 | `Innodb_row_lock_time`                    | 用于获取表上row lock的总时间, 单位毫秒. |
+| 168 | `Innodb_row_lock_time_avg`                | 用于获取表上row lock的平均时间, 单位毫秒. |
+| 169 | `Innodb_row_lock_time_max`                | 用于获取表上row lock的最大时间, 单位毫秒. |
+| 170 | `Innodb_row_lock_waits`                   | 需要等待row lock的表上操作数量. |
+| 171 | `Innodb_rows_deleted`                     | 表中删除的行的数量. |
+| 172 | `Innodb_rows_inserted`                    | 表中插入的行的数量. |
+| 173 | `Innodb_rows_read`                        | 表中读取的行的数量. |
+| 174 | `Innodb_rows_updated`                     | 表中更新的行的数量. |
+| 175 | `innodb_saved_page_number_debug`          | 调试选项. 保存一个页号. 设置`innodb_fil_make_page_dirty_debug`选项将由`innodb_saved_page_number_debug`定义的页置为dirty. |
+| 176 | `innodb_sort_buffer_size`                 | 创建index时用于排序数据的sort buffer的大小. |
+| 177 | `innodb_spin_wait_delay`                  | poll spin lock的最大延迟. |
+| 178 | `innodb_stats_auto_recalc`                | 表中数据改变后是否自动重新计算persistent statistics. |
+| 179 | `innodb_stats_include_delete_marked`      | 计算persistent optimizer statistics时是否包含delete-marked记录. |
+| 180 | `innodb_stats_method`                     | 收集表的索引值分布的统计量时, 如何处理`NULL`值. |
+| 181 | `innodb_stats_on_metadata`                | 只在metadata语句(`SHOW TABLE STATUS`)时或访问`INFORMATION_SCHEMA.TABLES`/`INFORMATION_SCHEMA.STATISTICS`表时, 更新non-persistent statistics. |
+| 182 | `innodb_stats_persistent`                 | 是否将index statistics持久化到硬盘. |
+| 183 | `innodb_stats_persistent_sample_pages`    | 估计索引列的统计量时使用的索引页的数量. 只在开启`innodb_stats_persistent`时有效.|
+| 184 | `innodb_stats_sample_pages`               | 已废弃. |
+| 185 | `innodb_stats_transient_sample_pages`     | 估计索引列的统计量时使用的索引页的数量. 只在关闭`innodb_stats_persistent`时有效. |
 | 186 | `--innodb-status-file`                    | 控制是否在数据目录下创建`innodb_status.pid`文件, 并每15s写入`SHOW ENGINE INNODB STATUS`的输出. |
-| 187 | `innodb_status_output`                    |  |
-| 188 | `innodb_status_output_locks`              |  |
-| 189 | `innodb_strict_mode`                      |  |
-| 190 | `innodb_support_xa`                       |  |
-| 191 | `innodb_sync_array_size`                  |  |
-| 192 | `innodb_sync_debug`                       |  |
-| 193 | `innodb_sync_spin_loops`                  |  |
-| 194 | `innodb_table_locks`                      |  |
-| 195 | `innodb_temp_data_file_path`              |  |
-| 196 | `innodb_thread_concurrency`               |  |
-| 197 | `innodb_thread_sleep_delay`               |  |
-| 198 | `innodb_tmpdir`                           |  |
-| 199 | `Innodb_truncated_status_writes`          |  |
-| 200 | `innodb_trx_purge_view_update_only_debug` |  |
+| 187 | `innodb_status_output`                    | 是否开启Monitor周期性的输出. |
+| 188 | `innodb_status_output_locks`              | 是否开启Lock Monitor. |
+| 189 | `innodb_strict_mode`                      | 是否开启严格模式. |
+| 190 | `innodb_support_xa`                       | 是否在XA事务中开启2PC. |
+| 191 | `innodb_sync_array_size`                  | mutex/lock等待数组的长度. |
+| 192 | `innodb_sync_debug`                       | 调试选项, 是否开启存储引擎的同步调试检查. |
+| 193 | `innodb_sync_spin_loops`                  | 在暂停前等待mutex释放的时间. |
+| 194 | `innodb_table_locks`                      | `autocommit=0`, 开启该选项时, `LOCK TABLES`导致内部锁表. |
+| 195 | `innodb_temp_data_file_path`              | Temporary tablespace data file的相对路径、名称、大小和属性. |
+| 196 | `innodb_thread_concurrency`               | InnoDB中最大线程数量. |
+| 197 | `innodb_thread_sleep_delay`               | 在加入InnoDB queue之前sleep的毫秒数. |
+| 198 | `innodb_tmpdir`                           | online `ALTER TABLE`操作重建表时创建temporary sort file的目录. |
+| 199 | `Innodb_truncated_status_writes`          | `SHOW ENGINE INNODB STATUS`语句的输出被截断的次数. |
+| 200 | `innodb_trx_purge_view_update_only_debug` | 调试选项, 暂停purge delete-marked记录, 同时允许更新purge view. |
 | 201 | `innodb_trx_rseg_n_slots_debug`           |  |
-| 202 | `innodb_undo_directory`                   |  |
-| 203 | `innodb_undo_log_truncate`                |  |
-| 204 | `innodb_undo_logs`                        |  |
-| 205 | `innodb_undo_tablespaces`                 |  |
-| 206 | `innodb_use_native_aio`                   |  |
-| 207 | `innodb_version`                          |  |
-| 208 | `innodb_write_io_threads`                 |  |
-| 209 | `unique_checks`                           |  |
+| 202 | `innodb_undo_directory`                   | 创建undo tablespace的路径. |
+| 203 | `innodb_undo_log_truncate`                | 开启时, 放undo tablespace超出由`innodb_max_undo_log_size`定义的阈值后, 被标记为需要截断. |
+| 204 | `innodb_undo_logs`                        | rollback segment的数量. |
+| 205 | `innodb_undo_tablespaces`                 | undo tablespace的数量. |
+| 206 | `innodb_use_native_aio`                   | 是否使用Linux 异步IO子系统. |
+| 207 | `innodb_version`                          | 版本号. |
+| 208 | `innodb_write_io_threads`                 | 用于写操作的IO线程数量. |
+| 209 | `unique_checks`                           | 是否开启唯一性检查. |
 
 ## 14.16 InnoDB INFORMATION_SCHEMA Tables
 ### 14.16.1 InnoDB INFORMATION_SCHEMA Tables about Compression
