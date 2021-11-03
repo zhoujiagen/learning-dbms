@@ -11,9 +11,9 @@
 -#[debug_options]
 ```
 
-默认的**debug_options**: `d:t:i:o,/tmp/mysqld.trace`.
+默认的 **debug_options**: `d:t:i:o,/tmp/mysqld.trace`.
 
-对**mysqld**, 可以通过运行时设置**debug**系统变量来修改DBUG设置:
+对 **mysqld**, 可以通过运行时设置**debug**系统变量来修改DBUG设置:
 
 ```
 SET GLOBAL debug = 'debug_options';

@@ -39,20 +39,21 @@ nav:
         - 'MySQL 5.7 InnoDB Storage Engine': impl/manual/mysql-5.7-innodb.md
         - 'MySQL 8.0 Manual': impl/manual/mysql-8.0-manual.md
       - 'MySQL 5.7':
-        - 'Home': impl/mysql-5.7/index.md
+        - 'Home': impl/mysql-5.7/mysql-index.md
         - 'Static':
           - 'Server':
-            - 'Architecture': impl/mysql-5.7/static/server/index.md
-            - 'Global Variables': impl/mysql-5.7/static/server/global-vars.md
-            - 'THD': impl/mysql-5.7/static/server/THD.md
-            - 'NET': impl/mysql-5.7/static/server/NET.md
-            - 'TABLE': impl/mysql-5.7/static/server/TABLE.md
-            - 'Field': impl/mysql-5.7/static/server/Field.md
-            - 'Utility': impl/mysql-5.7/static/server/utility.md
-            - 'mysys': impl/mysql-5.7/static/server/mysys.md
+            - 'Home': impl/mysql-5.7/static/server/server-index.md
+            - 'include': impl/mysql-5.7/static/server/include.md
+            - 'strings': impl/mysql-5.7/static/server/strings-index.md
+            - 'mysys': impl/mysql-5.7/static/server/mysys-index.md
             - 'sql':
-              - 'Handler': impl/mysql-5.7/static/server/sql/handler.md
+              - 'Home': impl/mysql-5.7/static/server/sql/sql-index.md
+              - 'auth': impl/mysql-5.7/static/server/sql/auth/sql-auth.md
+              - 'conn_handler': impl/mysql-5.7/static/server/sql/conn_handler/sql-conn_handler.md
+              - 'partitioning': impl/mysql-5.7/static/server/sql/partitioning/sql-partitioning.md
+              - 'share': impl/mysql-5.7/static/server/sql/share/sql-share.md
           - 'Innobase':
+            - 'Home': impl/mysql-5.7/static/innobase/innobase-index.md
             - 'include': impl/mysql-5.7/static/innobase/include.md
             - 'api': impl/mysql-5.7/static/innobase/api.md
             - 'btr': impl/mysql-5.7/static/innobase/btr.md
@@ -86,12 +87,13 @@ nav:
             - 'usr': impl/mysql-5.7/static/innobase/usr.md
             - 'ut': impl/mysql-5.7/static/innobase/ut.md
           - 'Performance Schema':
+            - 'Home': impl/mysql-5.7/static/perfschema/perfschema-index.md
             - 'cursor': impl/mysql-5.7/static/perfschema/cursor.md
             - 'ha_perfschema': impl/mysql-5.7/static/perfschema/ha_perfschema.md
             - 'pfs': impl/mysql-5.7/static/perfschema/pfs.md
             - 'table': impl/mysql-5.7/static/perfschema/table.md
         - 'Behaviour':
-          - 'Tracing': impl/mysql-5.7/behaviour/trace.md
+          - 'DBUG': impl/mysql-5.7/behaviour/DBUG.md
           - 'Transaction': impl/mysql-5.7/behaviour/trx.md
           - 'INSERT': impl/mysql-5.7/behaviour/insert.md
           - 'SELECT': impl/mysql-5.7/behaviour/select.md
