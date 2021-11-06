@@ -9,8 +9,10 @@ nav:
     - 'References':
       - 'Database Internals': references/Database-Internals.md
       - 'Designing Data-Intensive Applications': references/Designing-Data-Intensive-Applications.md
-    - 'Application':
-      - 'Designing Data-Intensive Applications': application/designing-data-intensive.md
+    - 'Introduction':
+      - 'A First Course in Database Systems': introduction/AFirstCourseinDatabaseSystems.md
+      - 'Transaction Processing: Concepts and Techniques': introduction/TransactionProcessingConceptsandTechniques.md
+      - 'Designing Data-Intensive Applications': introduction/DesigningDataIntensiveApplications.md
     - 'Data formats, algorithms and protocols':
       - 'Home': data/index.md
       - 'Dynamic storage allocation': data/dynamic_storage_allocation.md
