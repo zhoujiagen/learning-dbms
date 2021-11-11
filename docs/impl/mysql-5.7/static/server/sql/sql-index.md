@@ -45,9 +45,9 @@
 | [field.h](#fieldh)                                                      |  4700 |-||
 | [field_conv.cc](#field_convcc)                                          |  1073 | functions to copy data between fields. ||
 | [filesort.cc](#filesortcc)                                              |  2619 | sort a result set, using memory or temporary files. ||
-| [filesort.h](#filesorth)                                                |    64 |||
-| [filesort_utils.cc](#filesort_utilscc)                                  |   250 |||
-| [filesort_utils.h](#filesort_utilsh)                                    |   263 |||
+| [filesort.h](#filesorth)                                                |    64 |-||
+| [filesort_utils.cc](#filesort_utilscc)                                  |   250 |-||
+| [filesort_utils.h](#filesort_utilsh)                                    |   263 |-||
 | [gen_lex_hash.cc](#gen_lex_hashcc)                                      |   357 | Knuth's algorithm from Vol 3 Sorting and Searching, Chapter 6.3; used to search for SQL keywords in a query. ||
 | [gen_lex_token.cc](#gen_lex_tokencc)                                    |   385 |||
 | [geometry_rtree.cc](#geometry_rtreecc)                                  |    82 |||
@@ -436,8 +436,8 @@
 | [sql_initialize.h](#sql_initializeh)                                    |    21 |||
 | [sql_insert.cc](#sql_insertcc)                                          |  3246 | The `INSERT` statement. ||
 | [sql_insert.h](#sql_inserth)                                            |   295 |||
-| [sql_join_buffer.cc](#sql_join_buffercc)                                |  3640 |||
-| [sql_join_buffer.h](#sql_join_bufferh)                                  |   876 |||
+| [sql_join_buffer.cc](#sql_join_buffercc)                                |  3640 | Join buffer. ||
+| [sql_join_buffer.h](#sql_join_bufferh)                                  |   876 |-||
 | [sql_lex.cc](#sql_lexcc)                                                |  4903 | Does lexical analysis of a query; that is, breaks a query string into pieces and determines the basic type (number, string, keyword, etc.) of each piece. ||
 | [sql_lex.h](#sql_lexh)                                                  |  3714 |-||
 | [sql_lex_hash.cc](#sql_lex_hashcc)                                      |    87 |||

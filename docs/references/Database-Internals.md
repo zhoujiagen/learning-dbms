@@ -1,4 +1,4 @@
-# Refernces of **Database Internals**
+# References of **Database Internals**
 
 ```
 
