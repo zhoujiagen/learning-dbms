@@ -1,0 +1,1 @@
+add_executable(test_person test_person.cc person.cc person.h)
