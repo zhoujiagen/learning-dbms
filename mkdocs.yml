@@ -16,6 +16,7 @@ nav:
     - 'Data formats, algorithms and protocols':
       - 'Home': data/index.md
       - 'Dynamic storage allocation': data/dynamic_storage_allocation.md
+      - 'File Structures(C++)': data/file-structures.md
       - 'Algorithms and data structures for external memory': data/algorithms_and_data_structures_for_external_memory.md
       - 'Examples':
         - 'MySQL':
