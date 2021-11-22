@@ -9,6 +9,8 @@
 #include <string>
 #include <strstream>
 
+#include "log.h"
+
 using namespace std;
 
 //! template class to support indexed read and write of records
@@ -21,10 +23,10 @@ public:
   int Read (char *key, RecType &record); //<! read by key
   int Append (const RecType &record);
   int Update (char *oldKey, const RecType &record);
-  int Create (char *fileName, int mode = ios::in | ios::out);
-  int Open (char *fileName, int mode = ios::in | ios::out);
+  int Create (const char *fileName, int mode = ios::in | ios::out);
+  int Open (const char *fileName, int mode = ios::in | ios::out);
   int Close ();
-  TextIndexedFile (IOBuffer &buffer, int keySize, int maxKeys = 100);
+  TextIndexedFile (IOBuffer &dataBuffer, int keySize, int maxKeys = 100);
   ~TextIndexedFile (); //<! close and delete
 
 protected:
@@ -33,7 +35,8 @@ protected:
   TextIndexBuffer _indexBuffer;
   RecordFile<RecType> _dataFile;
   char *_fileName; //!< base file name
-  int SetFileName (char *fileName, char *&dataFileName, char *&indexFileName);
+  int SetFileName (const char *fileName, char *&dataFileName,
+                   char *&indexFileName);
 };
 
 template <class RecType>
@@ -60,7 +63,7 @@ TextIndexedFile<RecType>::Append (const RecType &record)
 {
   char *key = record.Key ();
   int ref = _index.Search (key);
-  if (ref = -1)
+  if (ref != -1)
     return -1;
 
   ref = _dataFile.Append (record);
@@ -77,10 +80,12 @@ TextIndexedFile<RecType>::Update (char *oldKey, const RecType &record)
 
 template <class RecType>
 int
-SetFileName (char *fileName, char *&dataFileName, char *&indexFileName)
+TextIndexedFile<RecType>::SetFileName (const char *fileName,
+                                       char *&dataFileName,
+                                       char *&indexFileName)
 {
-  if (_fileName != 0)
-    return 0;
+  if (_fileName != NULL)
+    return false;
 
   _fileName = strdup (fileName);
   ostrstream dataName, indexName;
@@ -88,61 +93,71 @@ SetFileName (char *fileName, char *&dataFileName, char *&indexFileName)
   indexName << _fileName << ".fsidx" << ends;
   dataFileName = strdup (dataName.str ());
   indexFileName = strdup (indexName.str ());
-  return 1;
+  return true;
 }
 
 template <class RecType>
 int
-TextIndexedFile<RecType>::Create (char *fileName, int mode)
+TextIndexedFile<RecType>::Create (const char *fileName, int mode)
 {
   int result;
   char *dataFileName, *indexFileName;
 
   result = SetFileName (fileName, dataFileName, indexFileName);
-  if (result == -1)
-    return 0;
+  if (!result)
+    {
+      ERROR ("SetFileName {} failed", fileName);
+      return false;
+    }
   result = _dataFile.Create (dataFileName, mode);
   if (!result)
     {
+      ERROR ("Create data file {} failed", dataFileName);
       _fileName = NULL;
-      return 0;
+      return false;
     }
 
-  result = _indexFile.Create (indexFileName, ios::out | ios::in);
+  result = _indexFile.Create (indexFileName, ios::out);
   if (!result)
     {
+      ERROR ("Create index file {} failed", indexFileName);
       _dataFile.Close ();
       _fileName = NULL;
-      return 0;
+      return false;
     }
 
-  return 1;
+  return true;
 }
 
 template <class RecType>
 int
-TextIndexedFile<RecType>::Open (char *fileName, int mode)
+TextIndexedFile<RecType>::Open (const char *fileName, int mode)
 {
   int result;
   char *dataFileName, *indexFileName;
 
   result = SetFileName (fileName, dataFileName, indexFileName);
   if (!result)
-    return 0;
+    {
+      ERROR ("SetFileName {} failed", fileName);
+      return false;
+    }
 
   result = _dataFile.Open (dataFileName, mode);
   if (!result)
     {
+      ERROR ("Open file {} with mode {} failed", dataFileName, mode);
       _fileName = NULL;
-      return 0;
+      return false;
     }
 
   result = _indexFile.Open (indexFileName, ios::out);
   if (!result)
     {
+      ERROR ("Open index file {} failed", indexFileName);
       _dataFile.Close ();
       _fileName = NULL;
-      return 0;
+      return false;
     }
 
   // read index into memory
@@ -151,13 +166,15 @@ TextIndexedFile<RecType>::Open (char *fileName, int mode)
     {
       result = _indexBuffer.Unpack (_index);
       if (result != -1)
-        return 1;
+        return true;
     }
+
+  ERROR ("Open {} and {} failed", dataFileName, indexFileName);
 
   _dataFile.Close ();
   _indexFile.Close ();
   _fileName = NULL;
-  return 0;
+  return false;
 }
 
 template <class RecType>
@@ -173,16 +190,16 @@ TextIndexedFile<RecType>::Close ()
   _indexFile.Rewind ();
   _indexBuffer.Pack (_index);
   result = _indexFile.Write ();
-  cout << "result of index write: " << result << endl;
+  DEBUG ("result of index write: {}", result);
   _indexFile.Close ();
   _fileName = NULL;
   return 1;
 }
 
 template <class RecType>
-TextIndexedFile<RecType>::TextIndexedFile (IOBuffer &buffer, int keySize,
-                                           int maxKeys = 100)
-    : _dataFile (buffer), _index (maxKeys), _indexFile (_indexBuffer),
+TextIndexedFile<RecType>::TextIndexedFile (IOBuffer &dataBuffer, int keySize,
+                                           int maxKeys)
+    : _dataFile (dataBuffer), _index (maxKeys), _indexFile (_indexBuffer),
       _indexBuffer (keySize, maxKeys)
 {
   _fileName = NULL;
@@ -190,7 +207,7 @@ TextIndexedFile<RecType>::TextIndexedFile (IOBuffer &buffer, int keySize,
 
 template <class RecType> TextIndexedFile<RecType>::~TextIndexedFile ()
 {
-  CLose ();
+  Close ();
 }
 
 #endif /* CH07_TEXT_IDX_FILE */

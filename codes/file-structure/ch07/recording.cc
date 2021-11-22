@@ -95,5 +95,5 @@ void
 Recording::Print (ostream &stream, char *label) const
 {
   stream << Label << "|" << IdNum << "|" << Title << "|" << Composer << "|"
-         << Artist;
+         << Artist << endl;
 }

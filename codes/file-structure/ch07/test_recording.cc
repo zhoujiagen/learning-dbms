@@ -12,6 +12,8 @@ main (int argc, char const *argv[])
   DelimFieldBuffer buffer;
   BufferFile recordingFile (buffer);
   recordingFile.Create ("record.fsdat", ios::out);
+
+  // prepare data
   Recording *R[10];
 
   R[0] = new Recording ("LON", "2312", "Romeo and Juliet", "Prokofiev",

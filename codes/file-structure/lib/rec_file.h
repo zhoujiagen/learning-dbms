@@ -3,7 +3,7 @@
 
 #include "buf_file.h"
 
-template <class RecType> //
+template <class RecType> // Pack(IOBuffer &), Unpack(IOBuffer &)
 class RecordFile : public BufferFile
 {
 public:
@@ -15,23 +15,23 @@ public:
 
 template <class RecType>
 int
-Read (RecType &record, int recaddr = -1)
+RecordFile<RecType>::Read (RecType &record, int recaddr)
 {
-  int writeAddr, result;
-  writeAddr = BufferFile::Read (recaddr);
-  if (!writeAddr)
+  int readAddr, result;
+  readAddr = BufferFile::Read (recaddr);
+  if (readAddr == -1)
     return -1;
 
   result = record.Unpack (_buffer);
   if (!result)
     return -1;
 
-  return writeAddr;
+  return readAddr;
 }
 
 template <class RecType>
 int
-Write (const RecType &record, int recaddr = -1)
+RecordFile<RecType>::Write (const RecType &record, int recaddr)
 {
   int result;
 
@@ -44,7 +44,7 @@ Write (const RecType &record, int recaddr = -1)
 
 template <class RecType>
 int
-Append (const RecType &record)
+RecordFile<RecType>::Append (const RecType &record)
 {
   int result;
 

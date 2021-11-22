@@ -394,6 +394,12 @@ At what point is the the key bound to the physical address of its associated rec
 
 ### 8. Cosequential Processing and the Sorting of Large Files
 
+**Cosequential operations** involves the coordinated processing of two or more sequential lists to produce a single output list:
+
+- merging or union of the items in the input lists,
+- matching or intersection of the items in the lists.
+
+
 #### 8.1 An Object-Oriented Model for Implementing Cosequential Processes
 
 ##### 8.1.1 Matching Names in Two Lists
@@ -440,6 +446,12 @@ At what point is the the key bound to the physical address of its associated rec
 
 #### 8.7 Sort-Merge Packages
 #### 8.8 Sorting and Cosequential Processing in Unix
+
+- sort -- sort or merge records (lines) of text and binary files
+- heapsort, heapsort_b, mergesort, mergesort_b, qsort, qsort_b, qsort_r -- sort functions
+- diff - compare files line by line
+- cmp - compare two files byte by byte
+- comm -- select or reject lines common to two files
 
 ##### 8.8.1 Sorting and Merging in Unix
 ##### 8.8.2 Cosequential Processing Utilities in Unix

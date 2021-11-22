@@ -13,6 +13,12 @@ FSString::FSString (const FSString &str)
   _maxLength = strlen (_string);
 }
 
+FSString::FSString (const char *str)
+{
+  _string = strdup (str);
+  _maxLength = strlen (_string);
+}
+
 FSString::~FSString ()
 {
   if (_string != NULL)
@@ -27,11 +33,12 @@ FSString::operator char * () { return strdup (_string); }
 FSString &
 FSString::operator= (const FSString &str)
 {
-  if (strlen (str._string) > _maxLength)
+  if (strlen (str._string) >= _maxLength)
     {
       delete _string;
       _string = strdup (str._string);
       _maxLength = strlen (_string);
+      return *this;
     }
 
   strcpy (_string, str._string);
