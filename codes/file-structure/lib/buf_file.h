@@ -2,6 +2,7 @@
 #define LIB_BUF_FILE
 
 #include "buf.h"
+#include "log.h"
 #include <fstream>
 
 using namespace std;
@@ -16,6 +17,21 @@ public:
   int Create (const char *filename, int mode); //!< create a new file
   int Close ();
   int Rewind (); //!< reset to the first data record
+  int
+  Sync ()
+  {
+    DEBUG ("Sync and flush fstream");
+
+    int result;
+    _file.flush ();
+    result = _file.sync ();
+    if (result != 0)
+      {
+        ERROR ("Sync fstream failed: {}", result);
+      }
+    _file.clear ();
+    return true;
+  }
 
   // input and output operations
 

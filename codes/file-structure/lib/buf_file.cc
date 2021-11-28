@@ -29,7 +29,10 @@ BufferFile::Open (const char *filename, int mode)
   _headerSize = ReadHeader ();
   DEBUG ("_headerSize={}", _headerSize);
   if (!_headerSize)
-    return false;
+    {
+      ERROR ("Read header size from file {} failed", filename);
+      return false;
+    }
 
   _file.seekp (_headerSize, ios::beg);
   _file.seekg (_headerSize, ios::beg);
@@ -39,6 +42,7 @@ BufferFile::Open (const char *filename, int mode)
 int
 BufferFile::Create (const char *filename, int mode)
 {
+  DEBUG ("Create file {} with mode {}", filename, mode);
   if (!(mode & ios::out))
     {
       ERROR ("Invalid mode for file {}: {}", filename, mode);
@@ -75,6 +79,7 @@ BufferFile::Rewind ()
 int
 BufferFile::Read (int recaddr)
 {
+  DEBUG ("BufferFile Read stream at {}", recaddr);
   if (recaddr == -1)
     return _buffer.Read (_file);
   else
@@ -84,17 +89,24 @@ BufferFile::Read (int recaddr)
 int
 BufferFile::Write (int recaddr)
 {
+  int result;
   if (recaddr == -1)
-    return _buffer.Write (_file);
+    result = _buffer.Write (_file);
   else
-    return _buffer.DWrite (_file, recaddr);
+    result = _buffer.DWrite (_file, recaddr);
+  Sync ();
+  return result;
 }
 
 int
 BufferFile::Append ()
 {
+  int result;
   _file.seekp (0, ios::end);
-  return _buffer.Write (_file);
+  DEBUG ("Append at {}", _file.tellp ());
+  result = _buffer.Write (_file);
+  Sync ();
+  return result;
 }
 
 IOBuffer &

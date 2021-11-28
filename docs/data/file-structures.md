@@ -75,6 +75,11 @@ A **file structure** is a combination of:
 
 ### 4. Fundamental File Structure Concepts
 
+build file structures to make data **persistent**:
+
+- one program creates data in memory, and stores it in a file,
+- another program reads the file and re-create the data in its memory.
+
 #### 4.1 Field and Record Organization
 
 field structures:
@@ -97,17 +102,28 @@ record structures:
 
 #### 4.2 Using Classes to Manipulate Buffers
 
+buffer classes
 
+output:
+
+- start with an empty buffer object,
+- pack field values into the object one by one,
+- write the buffer contents to an output stream.
+
+input:
+
+- initialize a buffer object by reading a record from an input stream,
+- extract the object's field value one by one.
 
 #### 4.3 Using Inheritance for Record Buffer Classes
 
 ```
-IOBuffer
-- VariableLengthBuffer
--- DelimitedFieldBuffer
--- LengthFieldBuffer
-- FixedLengthBuffer
--- FixedFieldBuffer
+IOBuffer                  - char array for buffer value
+- VariableLengthBuffer    - read and write operations for variable length records
+-- DelimitedFieldBuffer   - pack and unpack operations for delimited fields
+-- LengthFieldBuffer      - pack and unpack operation for length-based fields
+- FixedLengthBuffer       - read and write operations for fixed length records
+-- FixedFieldBuffer       - pack and unpack operations for fixed sized fields
 ```
 
 #### 4.4 Managing Fixed-Length, Fixed-Field Buffers
@@ -459,10 +475,23 @@ At what point is the the key bound to the physical address of its associated rec
 ### 9. Multi-level Indexing and B-trees
 
 #### 9.1 Introduction: The Invention of the B-Tree
+
+- R. Bayer, E. McCreight, Organization and Maintenance of Large Ordered Indexes, 1972.
+- Douglas Comer, The Ubiquitous B-Tree, 1979.
+
 #### 9.2 Statement of the Problem
+
+- searching the index must be faster than binary searching
+- insertion and deletion must be as fast as search
+
 #### 9.3 Indexing with Binary Search Trees
 
 ##### 9.3.1 AVL Trees
+
+- G. M. Adel'son-Vel'skii, E. M. Landis
+- HB(k): permitted to be k levels out of balance.
+- height-balanced 1-tree, HB(1) tree: no two subtrees of any root differ by more than one level.
+
 ##### 9.3.2 Paged Binary Trees
 ##### 9.3.3 Problems with Paged Trees
 
@@ -477,7 +506,7 @@ At what point is the the key bound to the physical address of its associated rec
 #### 9.8 B-Tree Methods Search, Insert, and Others
 
 ##### 9.8.1 Searching
-##### 9.8.2 Insetiong
+##### 9.8.2 Insertion
 ##### 9.8.3 Create, Open, and Close
 ##### 9.8.4 Testing the B-Tree
 

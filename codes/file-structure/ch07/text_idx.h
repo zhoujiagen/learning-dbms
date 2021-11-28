@@ -7,6 +7,7 @@ using namespace std;
 
 class TextIndexBuffer; // forward declaration
 
+//! see idx.h for a general index
 class TextIndex
 {
 public:

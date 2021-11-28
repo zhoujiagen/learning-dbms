@@ -2,10 +2,12 @@
 #define LIB_BUF
 
 #include <iostream>
+#include <strstream>
 
 using namespace std;
 
 //! An abstract base class for file buffers
+//! char array for buffer value
 class IOBuffer
 {
 public:
@@ -21,8 +23,11 @@ public:
 
   // sequential read and write operations: return the address of the record
 
-  virtual int Read (istream &) = 0;        //!< read a buffer from the stream
-  virtual int Write (ostream &) const = 0; //!< write a buffer to the stream
+  virtual int Read (istream &)
+      = 0; //!< read a buffer from the stream, if success return read position
+  virtual int
+  Write (ostream &) const = 0; //!< write a buffer to the stream, if success
+                               //!< return write position
 
   // direct read and write operations
 
@@ -32,6 +37,14 @@ public:
   // header operations: return the size of the header
   virtual int ReadHeader (istream &);
   virtual int WriteHeader (ostream &) const;
+
+  char *
+  str () const
+  {
+    ostrstream stream;
+    this->Print (stream);
+    return stream.str ();
+  };
 
 protected:
   bool _initialized; //!< TREE if buffer is initialized
@@ -43,7 +56,8 @@ protected:
 };
 
 //! Abstract class designed to support variable length records
-// fields may be a variety of types
+//! fields may be a variety of types
+//! read and write operations for variable length records
 class VariableLengthBuffer : public IOBuffer
 {
 public:
@@ -66,6 +80,7 @@ public:
 };
 
 //! A buffer which holds delimited text fields
+//! pack and unpack operations for delimited fields
 class DelimFieldBuffer : public VariableLengthBuffer
 {
 public:
@@ -93,6 +108,7 @@ inline DelimFieldBuffer::DelimFieldBuffer (const DelimFieldBuffer &buffer)
 }
 
 //! Class that supports length plus value fields
+//! pack and unpack operation for length-based fields
 class LengthFieldBuffer : public VariableLengthBuffer
 {
 public:
@@ -112,6 +128,7 @@ protected:
 };
 
 //! Abstract class designed to support fixed length records
+//! read and write operations for fixed length records
 class FixedLengthBuffer : public IOBuffer
 {
 public:
@@ -139,6 +156,7 @@ inline FixedLengthBuffer::FixedLengthBuffer (const FixedLengthBuffer &buffer)
 }
 
 //! Abstract class designed to support fixed fields records
+//! pack and unpack operations for fixed sized fields
 class FixedFieldBuffer : public FixedLengthBuffer
 {
 public:

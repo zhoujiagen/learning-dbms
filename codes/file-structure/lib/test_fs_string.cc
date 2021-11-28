@@ -10,7 +10,7 @@ main (int argc, char const *argv[])
   FSString str = "aaa";
   FSString *arr = new FSString[2];
 
-  arr[0] = ""; // FIXME
+  arr[0] = "";
   arr[1] = "bbb";
 
   return 0;

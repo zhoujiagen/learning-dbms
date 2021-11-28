@@ -82,11 +82,11 @@ write_something (ostream &stream, const char *data)
   return stream;
 }
 
-int
-main (int argc, char const *argv[])
+void
+test_ledger ()
 {
   // fstream
-  const char *filename = "test.fsdat";
+  const char *filename = "test_ledger.fsdat";
   fstream stream;
 
   stream.open (filename, ios::out | ios::binary);
@@ -113,6 +113,38 @@ main (int argc, char const *argv[])
   ledger.Print (outf);
   ledger.PrintHeader (outf);
   outf.close ();
+}
+
+void
+test_fstream ()
+{
+  // fstream
+  const char *filename = "test_fstream.fsdat";
+  std::fstream stream;
+
+  // NOTE the openmode!!!
+  stream.open (filename, ios::in | ios::out | ios::binary | ios::trunc);
+  if (!stream.good ())
+    {
+      ERROR ("Open file {} failed", filename);
+    }
+  const char *data = "hello";
+  stream.write (data, sizeof (data));
+
+  stream.seekp (0);
+  char *dataOut = new char[5];
+  stream.read (dataOut, 5);
+  cout << "dataOut=" << dataOut << endl;
+
+  stream.close ();
+}
+
+int
+main (int argc, char const *argv[])
+{
+  // test_ledger();
+
+  test_fstream ();
 
   return 0;
 }
