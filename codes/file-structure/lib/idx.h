@@ -25,6 +25,8 @@ public:
               = true); //!< if exact, return -1 if not found, if !exact, find
                        //!< largest key in node < key
   void Print (ostream &stream) const;
+  void PrintGraphviz (ostream &stream) const;
+
   int
   numKeys () const
   {

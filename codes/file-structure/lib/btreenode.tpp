@@ -61,6 +61,13 @@ BTreeNode<KeyType>::Print (ostream &) const
 }
 
 template <class KeyType>
+void
+BTreeNode<KeyType>::PrintGraphviz (ostream &) const
+{
+  SimpleIndex<KeyType>::PrintGraphviz (cout);
+}
+
+template <class KeyType>
 KeyType
 BTreeNode<KeyType>::LargestKey ()
 {

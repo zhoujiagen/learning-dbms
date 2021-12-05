@@ -20,6 +20,7 @@ public:
   int Insert (const KeyType key, int recAddr);
   int Remove (const KeyType key, int recAddr = -1);
   void Print (ostream &) const;
+  void PrintGraphviz (ostream &) const;
   KeyType LargestKey ();
   int Split (BTreeNode<KeyType> *noewNode); //!< move into newNode
   int Merge (BTreeNode<KeyType> *fromNode); //!< move from fromNode
@@ -78,6 +79,9 @@ public:
   int Search (const KeyType key, const int recAddr = -1);
   void Print (ostream &stream);
   void Print (ostream &stream, int nodeAddr, int level);
+  void PrintGraphvizHeader (ostream &stream, const char *gname);
+  void PrintGraphviz (ostream &stream);
+  void PrintGraphviz (ostream &stream, int nodeAddr, int level);
 
 protected:
   typedef BTreeNode<KeyType> BTNode;

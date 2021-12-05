@@ -208,6 +208,62 @@ BTree<KeyType>::Print (ostream &stream, int nodeAddr, int level)
     }
 }
 
+template <class KeyType>
+void
+BTree<KeyType>::PrintGraphvizHeader (ostream &stream, const char *gname)
+{
+  stream << "digraph " << gname << " {" << endl;
+  stream << "\tsplines=line;" << endl;
+}
+
+template <class KeyType>
+void
+BTree<KeyType>::PrintGraphviz (ostream &stream)
+{
+  // root[shape=record, label="<P230>I|<P302>P|<Z206>Z||"];
+  stream << "\tnode[shape = record, width = 1, height = 0.1];" << endl;
+  stream << "\troot[shape=record, label=\"";
+  _root.PrintGraphviz (stream);
+  stream << "\"];" << endl;
+  if (_height > 1)
+    {
+      for (int i = 0; i < _root._numKeys; i++)
+        {
+          PrintGraphviz (stream, _root._recAddrs[i], 2);
+          // root:P230->L2_P230;
+          stream << "root:P" << _root._recAddrs[i] << " -> "
+                 << "L2_P" << _root._recAddrs[i] << ";" << endl;
+        }
+    }
+  stream << "}" << endl;
+}
+
+template <class KeyType>
+void
+BTree<KeyType>::PrintGraphviz (ostream &stream, int nodeAddr, int level)
+{
+  BTreeNode<KeyType> *thisNode = Fetch (nodeAddr);
+
+  // L2_P230[shape=record, label="<P110>D|<P86>G|<P278>I||"];
+  stream << "L" << level << "_P" << nodeAddr << "[shape=record, label=\"";
+  thisNode->PrintGraphviz (stream);
+  stream << "\"];" << endl;
+
+  if (_height > level)
+    {
+      level++;
+      for (int i = 0; i < thisNode->_numKeys; i++)
+        {
+          PrintGraphviz (stream, thisNode->_recAddrs[i], level);
+          // L2_P230:P110->L3_P110;
+          stream << "L" << level - 1 << "_P" << nodeAddr << ":P"
+                 << thisNode->_recAddrs[i] << " -> "
+                 << "L" << level << "_P" << thisNode->_recAddrs[i] << ";"
+                 << endl;
+        }
+    }
+}
+
 //! Search down a branch of the tree, beginning at the root, _nodes[0]
 template <class KeyType>
 BTreeNode<KeyType> *

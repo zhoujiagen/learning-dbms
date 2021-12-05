@@ -95,6 +95,27 @@ SimpleIndex<KeyType>::Print (ostream &stream) const
 }
 
 template <class KeyType>
+void
+SimpleIndex<KeyType>::PrintGraphviz (ostream &stream) const
+{
+  if (_numKeys > 0)
+    {
+      stream << "<P" << _recAddrs[0] << ">" << _keys[0];
+    }
+  for (int i = 1; i < _numKeys; i++)
+    {
+      stream << "|<P" << _recAddrs[i] << ">" << _keys[i];
+    }
+  if (_numKeys < _maxKeys)
+    {
+      for (int i = 0; i < _maxKeys - _numKeys; i++)
+        {
+          stream << "|";
+        }
+    }
+}
+
+template <class KeyType>
 int
 SimpleIndex<KeyType>::Find (const KeyType key, const int recAddr,
                             const bool exact) const

@@ -4,6 +4,7 @@
 |时间|内容|
 |:---|:---|
 |20211110|kick off.|
+|20211206|First skimming.|
 
 ## 术语
 
@@ -472,162 +473,16 @@ At what point is the the key bound to the physical address of its associated rec
 ##### 8.8.1 Sorting and Merging in Unix
 ##### 8.8.2 Cosequential Processing Utilities in Unix
 
-### 9. Multi-level Indexing and B-trees
+### 9. Multi-level Indexing and B-trees, 10. Indexed Sequential File Access and Prefix B+ trees
 
-#### 9.1 Introduction: The Invention of the B-Tree
 
-- R. Bayer, E. McCreight, Organization and Maintenance of Large Ordered Indexes, 1972.
-- Douglas Comer, The Ubiquitous B-Tree, 1979.
+[B-trees](file-structures-cpp-btree.md)
 
-#### 9.2 Statement of the Problem
 
-- searching the index must be faster than binary searching
-- insertion and deletion must be as fast as search
+### 11. Hashing, 12. Extendible Hashing
 
-#### 9.3 Indexing with Binary Search Trees
+[Hash](file-structures-cpp-hash.md)
 
-##### 9.3.1 AVL Trees
-
-- G. M. Adel'son-Vel'skii, E. M. Landis
-- HB(k): permitted to be k levels out of balance.
-- height-balanced 1-tree, HB(1) tree: no two subtrees of any root differ by more than one level.
-
-##### 9.3.2 Paged Binary Trees
-##### 9.3.3 Problems with Paged Trees
-
-#### 9.4 Multilevel Indexing, a Better Approach to Tree Indexes
-#### 9.5 B-trees: Working up from the Bottom
-#### 9.6 Example of Creating a B-Tree
-#### 9.7 An Object-Oriented Representation of B-Trees
-
-##### 9.7.1 Class BTreeNode: representing B-Tree Nodes in Memory
-##### 9.7.2 Class BTree: Supporting Files of B-Tree Nodes
-
-#### 9.8 B-Tree Methods Search, Insert, and Others
-
-##### 9.8.1 Searching
-##### 9.8.2 Insertion
-##### 9.8.3 Create, Open, and Close
-##### 9.8.4 Testing the B-Tree
-
-#### 9.9 B-Tree Nomenclature
-#### 9.10 Formal Definition of B-Tree Properties
-#### 9.11 Worst-Case Search Depth
-#### 9.12 Deletion, Merging, and Redistribution
-
-##### 9.12.1 Redistribution
-
-#### 9.13 Redistribution During Insertion: A Way to Improve Storage Utilization
-#### 9.14 B* Trees
-#### 9.15 Buffering of Pages: Virtual B-Trees
-
-##### 9.15.1 LRU Replacement
-##### 9.15.2 Replacement Based on Page Height
-##### 9.15.3 Importance of Virtual B-Trees
-
-#### 9.16 Variable-Length Records and Keys
-
-### 10. Indexed Sequential File Access and Prefix B+ trees
-
-#### 10.1 Indexed Sequential Access
-#### 10.2 Maintaining a Sequence Set
-
-##### 10.2.1 The Use of Blocks
-##### 10.2.2 Choice of Block Size
-
-#### 10.3 Adding a Simple Index to the Sequence Set
-#### 10.4 The Content of the Index: Separators Instead of Keys
-#### 10.5 The Simple Prefix B+ Tree
-#### 10.6 Simple Prefix B+ Tree Maintenance
-
-##### 10.6.1 Changes Localized to Single Blocks in the Sequence Set
-##### 10.6.2 Changes Involving Multiple Blocks in the Sequence Set
-
-#### 10.7 Index Set Block Size
-#### 10.8 Internal Structure of Index Set Blocks: A Variable-Order B-Tree
-#### 10.9 Loading a Simple Prefix B+ Tree
-#### 10.10 B+ Tree
-#### 10.11 B-Trees, B+ Trees, and Simple Prefix B+ Trees in Perspective
-
-### 11. Hashing
-
-#### 11.1 Introduction
-
-##### 11.1.1 What is Hashing?
-##### 11.1.2 Collisions
-
-#### 11.2 A Simple Hashing Algorithm
-#### 11.3 Hashing Functions and Record Distributions
-
-##### 11.3.1 Distributing Records among Addreses
-##### 11.3.2 Some Other Hashing Methods
-##### 11.3.3 Predicting the Distribution of Records
-##### 11.3.4 Predicting Collisions for a Full File
-
-#### 11.4 How Much Extra Memory Should Be Used?
-
-##### 11.4.1 Packing Density
-##### 11.4.2 Predicting Collisions for Different Packing Densities
-
-#### 11.5 Collision Resolution by Progressive Overflow
-
-##### 11.5.1 How Progressive Overflow Works
-##### 11.5.2 Search Length
-
-#### 11.6 Storing More Than One Record per Address: Buckets
-
-##### 11.6.1 Effects of Buckets on Performance
-##### 11.6.2 Implementation Issues
-
-#### 11.7 Making Deletions
-
-##### 11.7.1 Tombstones for Handling Deletions
-##### 11.7.2 Implications of Tombstones for Insertion
-##### 11.7.3 Effects of Deletions and Additions on Performance
-
-#### 11.8 Other Collision Resolution Techniques
-
-##### 11.8.1 Double Hasing
-##### 11.8.2 Chained Progressive Overflow
-##### 11.8.3 Chaining with a Separate Overflow Area
-##### 11.8.4 Scatter Tables: Indexing Revisited
-
-#### 11.9 Patterns of Record Access
-
-### 12. Extendible Hashing
-
-#### 12.1 Introduction
-#### 12.2 How Extendible Hashing Works
-
-##### 12.2.1 Tries
-##### 12.2.2 Turning the Trie into a Directory
-##### 12.2.3 Splitting to Handle Overflow
-
-#### 12.3 Implementation
-
-##### 12.3.1 Creating the Addresses
-##### 12.3.2 Classes for Representing Bucket and Directory Objects
-##### 12.3.3 Bucket and Directory Operations
-##### 12.3.4 Implementation Summary
-
-#### 12.4 Deletion
-
-##### 12.4.1 Overview of the Deletion Process
-##### 12.4.2 A Procedure for Finding Buddy Buckets
-##### 12.4.3 Collapsing the Directory
-##### 12.4.4 Implementing the Deletion Operations
-##### 12.4.5 Summary of the Deletion Operation
-
-#### 12.5 Extendible Hashing Performance
-
-##### 12.5.1 Space Utilization for Buckets
-##### 12.5.2 Space Utilization for the Directory
-
-#### 12.6 Alternative Approaches
-
-##### 12.6.1 Dynamic Hashing
-##### 12.6.2 Linear Hashing
-##### 12.6.3 Approaches to Controlling Splitting
 
 ### Appendix A. File Structures on CD-ROM
 
