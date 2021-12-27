@@ -3,8 +3,8 @@
 
 #include "buf.h"
 #include "buf_file.h"
+#include "idx_text.h"
 #include "rec_file.h"
-#include "text_idx_buf.h"
 #include <iostream>
 #include <string>
 #include <strstream>

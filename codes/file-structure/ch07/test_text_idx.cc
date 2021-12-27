@@ -1,7 +1,6 @@
 #include "buf_file.h"
+#include "idx_text.h"
 #include "recording.h"
-#include "text_idx.h"
-#include "text_idx_buf.h"
 
 #include <ostream>
 

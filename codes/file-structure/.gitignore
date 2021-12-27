@@ -3,3 +3,6 @@ build/
 *.fstxt
 *.fsdat
 *.fsidx
+*.fshash
+*.fsdir
+*.fsbkt

@@ -1,6 +1,7 @@
-#ifndef CH07_TEXT_IDX
-#define CH07_TEXT_IDX
+#ifndef LIB_IDX_TEXT
+#define LIB_IDX_TEXT
 
+#include "buf.h"
 #include <iostream>
 
 using namespace std;
@@ -29,4 +30,21 @@ protected:
   friend class TextIndexBuffer;
 };
 
-#endif /* CH07_TEXT_IDX */
+using namespace std;
+
+class TextIndexBuffer : public FixedFieldBuffer
+{
+public:
+  TextIndexBuffer (int keySize, int maxKeys = 100, int extraFields = 0,
+                   int extraSize = 0);
+  int Pack (const TextIndex &);
+  int Unpack (TextIndex &);
+  void Print (ostream &) const;
+
+protected:
+  int _maxKeys;
+  int _keySize;
+  char *_dummy;
+};
+
+#endif /* LIB_IDX_TEXT */
