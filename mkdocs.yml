@@ -6,13 +6,17 @@ repo_url: https://github.com/zhoujiagen/learning-dbms
 
 nav:
     - Home: index.md
-    - 'References':
-      - 'Database Internals': references/Database-Internals.md
-      - 'Designing Data-Intensive Applications': references/Designing-Data-Intensive-Applications.md
     - 'Introduction':
       - 'A First Course in Database Systems': introduction/AFirstCourseinDatabaseSystems.md
       - 'Transaction Processing: Concepts and Techniques': introduction/TransactionProcessingConceptsandTechniques.md
-      - 'Designing Data-Intensive Applications': introduction/DesigningDataIntensiveApplications.md
+      - 'Database Internals':
+        - 'Home': introduction/database-internals/DI.md
+        - 'References': introduction/database-internals/DI-references.md
+        - 'Storage Engine': introduction/database-internals/DI-storage-engines.md
+        - 'Distributed Systems': introduction/database-internals/DI-distributed-systems.md
+      - 'Designing Data-Intensive Applications':
+        - 'Home': introduction/DDIA.md
+        - 'References': introduction/DDIA-references.md
     - 'Data formats, algorithms and protocols':
       - 'Home': data/index.md
       - 'Dynamic storage allocation': data/dynamic_storage_allocation.md
