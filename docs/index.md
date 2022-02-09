@@ -16,6 +16,29 @@ Topics:
 - Transaction: processing and recovery
 - Log-Structured Storage
 
+#### Overview
+
+|Progress|Title|Notes|
+|:---|:---|:---|
+||[Architecture of a Database System](./overview/DBMSArch.md)||
+||[Database Systems: The Complete Book](./overview/DBMSCBook.md)||
+||[How to Build a Non-Volatile Memory Database Management System](./overview/NVMDBMS.md)||
+||[Main Memory Database Systems: An Overview](./overview/MemDBMS.md)||
+||[The working set model for program behavior](./overview/ProgramWorkSetModel.md)||
+||[The Design and Implementation of Modern Column-Oriented Database Systems](./overview/ColumnDBMS.md)||
+||[Column-oriented Database Systems: A Comparison Study](./overview/ColumnDBMSCmp.md)||
+||[What Every Programmer Should Know About Memory](./overview/ProgrammerMemory.md)||
+||[Bigtable: A Distributed Storage System for Structured Data](./overview/Bigtable.md)||
+||[Understanding InnoDB clustered indexes](./overview/InnodbIndex.md)||
+
+#### Transaction
+
+|Progress|Title|Notes|
+|:---|:---|:---|
+|100|[ARIES: a transaction recovery method supporting fine-granularity locking and partial rollbacks using write-ahead logging](./transaction/aries.md)||
+|100|[Transaction Processing: Concepts and Techniques](./transaction/TPCT.md)||
+||[Transactional Information Systems: Theory, Algorithms, and the Practice of Concurrency Control and Recovery](./transaction/TIS.md)||
+
 ### Perspectives on the Distributed Systems
 
 Topics:
@@ -39,6 +62,10 @@ Topics:
 
 - Query parsing
 - Query optimization
+
+|Progress|Title|Notes|
+|:---|:---|:---|
+|100|[Query Optimization](./query/optimization/query-optimization.md)||
 
 ## Implementations
 

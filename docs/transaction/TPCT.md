@@ -3,10 +3,10 @@
 
 |时间|内容|
 |:---|:---|
-|20190317|在阅读Linux系统编程和架构的基础上重新阅读.|
-|20190414|re-read 文件组织: 文件和缓冲区管理, 面向元组的文件系统, 访问路径|
-|20190415|add ProtocolBuf message of file, page, etc in project rdfstrore-protocol.|
-|20190416|lesson learned: should distinguish disk and memory data structure|
+|2019-03-17|在阅读Linux系统编程和架构的基础上重新阅读.|
+|2019-04-14|re-read 文件组织: 文件和缓冲区管理, 面向元组的文件系统, 访问路径|
+|2019-04-15|add ProtocolBuf message of file, page, etc in project rdfstrore-protocol.|
+|2019-04-16|lesson learned: should distinguish disk and memory data structure|
 
 ## 术语
 

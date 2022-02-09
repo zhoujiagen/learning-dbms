@@ -2,11 +2,11 @@
 
 |时间|内容|
 |:---|:---|
-|20190428|kick off.<br/>find ref 关系数据库是如何工作的（8）<br/>https://www.devbean.net/2016/05/how-database-works-8/ |
-|20190429|add 文章结构/摘要/数据结构|
-|20190430|add 正常处理/重启处理|
-|20190505|add 重启处理中选择性或之后的重启<br/>add 重启时生成检查点<br/>add 介质恢复<br/>add 嵌套的顶级动作<br/>add 恢复范式|
-|20190506|add 其他基于WAL的方法<br/>add ARIES的特性|
+|2019-04-28|kick off.<br/>find ref 关系数据库是如何工作的（8）<br/>https://www.devbean.net/2016/05/how-database-works-8/ |
+|2019-04-29|add 文章结构/摘要/数据结构|
+|2019-04-30|add 正常处理/重启处理|
+|2019-05-05|add 重启处理中选择性或之后的重启<br/>add 重启时生成检查点<br/>add 介质恢复<br/>add 嵌套的顶级动作<br/>add 恢复范式|
+|2019-05-06|add 其他基于WAL的方法<br/>add ARIES的特性|
 
 <!--
 Purugganan M, Hewitt J. How to read a scientific article[J]. Rice University, 2004.

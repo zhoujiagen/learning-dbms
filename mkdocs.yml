@@ -16,6 +16,16 @@ nav:
       - 'Designing Data-Intensive Applications':
         - 'Home': overview/DDIA.md
         - 'References': overview/DDIA-references.md
+      - 'Architecture of a Database System': overview/DBMSArch.md
+      - 'Database Systems: The Complete Book': overview/DBMSCBook.md
+      - 'How to Build a Non-Volatile Memory Database Management System': overview/NVMDBMS.md
+      - 'Main Memory Database Systems: An Overview': overview/MemDBMS.md
+      - 'The working set model for program behavior': overview/ProgramWorkSetModel.md
+      - 'The Design and Implementation of Modern Column-Oriented Database Systems': overview/ColumnDBMS.md
+      - 'Column-oriented Database Systems: A Comparison Study': overview/ColumnDBMSCmp.md
+      - 'What Every Programmer Should Know About Memory': overview/ProgrammerMemory.md
+      - 'Bigtable: A Distributed Storage System for Structured Data': overview/Bigtable.md
+      - 'Understanding InnoDB clustered indexes': overview/InnodbIndex.md
     - 'Data and File Formats':
       - 'Home': data-file-formats/index.md
       - 'Dynamic storage allocation': data-file-formats/dynamic_storage_allocation.md
@@ -40,6 +50,7 @@ nav:
     - 'Transaction':
       - 'Transaction Processing: Concepts and Techniques': transaction/TPCT.md
       - 'ARIES': transaction/aries.md
+      - 'Transactional Information Systems: Theory, Algorithms, and the Practice of Concurrency Control and Recovery': transaction/TIS.md
     - 'Implementations':
       - 'MySQL':
         - 'Manual':

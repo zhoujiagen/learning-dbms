@@ -62,6 +62,8 @@ Storage structures have 3 common variables:
 
 ### Summary
 
+> TODO: TBD for docs/index.md
+
 ## 2. B-Tree Basics
 ### Binary Search Trees
 #### Tree Balancing

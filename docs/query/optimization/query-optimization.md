@@ -2,7 +2,7 @@
 
 |时间|内容|
 |:---|:---|
-|20190713||
+|2019-07-13||
 
 <!--
 Purugganan M, Hewitt J. How to read a scientific article[J]. Rice University, 2004.
