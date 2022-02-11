@@ -2,7 +2,8 @@
 
 |时间|内容|
 |:---|:---|
-|yyyy-mm-dd||
+|2022-02-10| kick off. |
+|2022-02-11| reading section 1,2,3. |
 
 <!--
 Purugganan M, Hewitt J. How to read a scientific article[J]. Rice University, 2004.
@@ -58,7 +59,17 @@ If web access: url; date accessed
 
 ## 假设
 
+assumption on readers:
+
+- familiar with textbook database systems materials (`[72]`, `[83]`),
+- familiar with the basic facilities of moder operating systems.
+
+
+focus on relational database systems throughout this paper.
+
 ## 方法论
+
+attempt to capture the main architectural aspects of modern database systems, with a discussion of advanced topics.
 
 ## 结果
 
@@ -158,13 +169,75 @@ References                                                  117
 
 ### 1 Introduction
 #### 1.1 Relational Systems: The Life of a Query
+
+see Fig. 1.1
+
 #### 1.2 Scope and Overview
 
+scope:
+
+- focus on architectural fundamentals supporting core database functionality.
+- not attemp to provide a comprehensive review of database algorithms.
+- provide only minimal discussion of many extensions present in modern DBMSs
+
+structure:
+
+- overall process structure: uniprocessor machines, parallel architectures,
+- a single query's view of the system,
+- the storage architecture and transactional storage management design,
+- shared components and utilities exists in most DBMS.
+
 ### 2 Process Models
+
+definitions:
+
+- **Operating System Process**: combines an operating system (OS) program execution unit (a thread of control) with an address space private to the process.
+- **Operating System Thread**: an OS program execution unit without additnal private OS context and without a private address space.
+- **Lightweight Thread(LWT) Package**: an application-level construct that supports multiple thread within a single OS process.
+- **DBMS threads**: some DBMS implment their own LWT packages.
+- **DBMS Client**: the software component that implements the API used by application program to communicate with a DBMS.
+- **DBMS Worker**: the thread of execution in the DBMS that does work on behalf of a DBMS Client.
+
 #### 2.1 Uniprocessors and Lightweight Threads
+
+process model options:
+
+- processor per DBMS Worker
+- thread per DBMS Worker
+- process pool
+
+shared data and process boundaries:
+
+- all SQL requests need to be moved into the server processes, and
+- all results for return to the client need to be moved back out.
+
+they use buffers:
+
+- disk I/O buffers,
+- client communication buffers.
+
 #### 2.2 DBMS Threads
+
+it was not until the 1990s that OS treads were widely implemented, and where they dis exist, the implementations varied greatly.
+
 #### 2.3 Standard Practice
+
+|process model option         | IBM DB2 | MySQL | Oracle | PostgreSQL | Microsoft SQL Server|
+|:---                         |:---     |:---   |:---    |:---        |:---                 |
+|Process per DBMS worker      |    Y    |       |   Y    |     Y      |                     |
+|**Thread per DBMS worker**   |
+|OS thread per DBMS worker    |    Y    |   Y   |        |            |                     |
+|DBMS thread per DBMS worker  |         |       |        |            |         Y           |
+|**Process/thread pool**      |
+|process pool                 |    Y    |       |   Y    |            |                     |
+|thread pool                  |    Y    |       |        |            |         Y           |
+
 #### 2.4 Admission Control
+
+any good multi-user system has an **admission control policy**, which does not accept new work unless sufficient DBMS resources are available.
+
+with a good admission controller, a system will display graceful degradation under overload.
+
 #### 2.5 Discussion and Additional Material
 
 ### 3 Parallel Architecture: Processes and Memory Coordination
@@ -172,8 +245,21 @@ References                                                  117
 #### 3.2 Shared-Nothing
 #### 3.3 Shared-Disk
 #### 3.4 NUMA
+
+NUMA: Non-Uniform Memory Access
+
+- each system in the cluster can access its own local memory quickly, whereas
+- remote memory access across the high-speed cluster interconnect is somewhat delayed.
+
 #### 3.5 DBMS Threads and Multi-processors
 #### 3.6 Standard Practice
+
+|parallel architecture  | IBM DB2 | MySQL | Oracle | PostgreSQL | Microsoft SQL Server|
+|:---                   |:---     |:---   |:---    |:---        |:---                 |
+|Shared-Memory          |    Y    |       |    Y   |            |          Y          |
+|Shared-Nothing         |    Y    |       |        | Greenplum  |                     |
+|Shared-Disk            | ZSeries |       |  RAC   |            |                     |
+
 #### 3.7 Discussion and Additional Material
 
 ### 4 Relational Query Processor
@@ -222,7 +308,7 @@ References                                                  117
 
 <!-- Significance to the field; in relation to your own work -->
 
-while many of the algorithms and abstractions used by a DBMS are textbook materal, there has been relatively sparse coverage in the literature of the systems desion issues that make a DBMS work.
+while many of the algorithms and abstractions used by a DBMS are textbook material, there has been relatively sparse coverage in the literature of the systems desion issues that make a DBMS work.
 
 this paper presents **an architecture discussion of DBMS design principles**, including:
 
@@ -233,6 +319,7 @@ this paper presents **an architecture discussion of DBMS design principles**, in
 - query processor and optimizer architectures,
 - typical shared components and utilities.
 
+relation to my work: 帮助建立数据库管理系统的体系结构的基本概念.
 
 ## 重要的图表
 
@@ -241,6 +328,17 @@ this paper presents **an architecture discussion of DBMS design principles**, in
 ### Fig. 1.1 Main components of a DBMS
 
 ![Fig. 1.1 Main components of a DBMS](./images/DBMSArch-Fig. 1.1 Main components of a DBMS.png)
+
+example: a gate agent clicks on a form to request the passenger list for a flight
+
+1. Client Communications Manager
+2. Process Manager
+3. Relational Query Processor
+4. Transactional Storage Manager
+5. unwinding the stack
+
+a number of shared components and utilities that are vital to the operation of a full-function DBMS
+
 
 ## 引用的重要文献
 
