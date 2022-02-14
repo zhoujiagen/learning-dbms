@@ -259,7 +259,7 @@ NUMA: Non-Uniform Memory Access
 |:---                   |:---     |:---   |:---    |:---        |:---                 |
 |Shared-Memory          |    Y    |       |    Y   |            |          Y          |
 |Shared-Nothing         |    Y    |       |        | Greenplum  |                     |
-|Shared-Disk            | ZSeries |       |  RAC   |            |                     |
+|Shared-Disk            | zSeries |       |  RAC   |            |                     |
 
 #### 3.7 Discussion and Additional Material
 
@@ -401,7 +401,7 @@ all operators in a query plan are implemented as subclasses of the `iterator` cl
 
 ##### 4.4.1 Iterator Discussion
 
-iterators couple data flow iwth control flow.
+iterators couple data flow with control flow.
 
 a single DBMS thread is needed to execute an entire query graph.
 
@@ -487,7 +487,7 @@ materialized views take are actual tables taht can be queries, but which corresp
 
 - (a) selecting the views to materialzie,
 - (b) maintainning the freshness of the views,
-- (c) considering the use of materialized views in ad-hoc queries.
+- \(c) considering the use of materialized views in ad-hoc queries.
 
 ##### 4.6.4 OLAP and Ad-hoc Query Support
 
@@ -659,7 +659,7 @@ the log manager is responsible for:
 
 a Write-Ahead Logging (WAL) protocol
 
-challenge is to guarantee efficiency in the fast path for transactions that commit, while also providing high-performance rollback for aborted transaction, and quick recovery after crashes.
+challenge is to guarantee efficiency in the fast path for transactions that commit, while also providing high-performance rollback for aborted transactions, and quick recovery after crashes.
 
 #### 6.5 Locking and Logging in Indexes
 
@@ -704,7 +704,7 @@ the database catalog holds information about data in the system and is a form of
 
 #### 7.2 Memory Allocator
 
-context-based memory allocator: more efficient and easier to debug.
+**context-based memory allocator**: more efficient and easier to debug.
 
 #### 7.3 Disk Management Subsystems
 
