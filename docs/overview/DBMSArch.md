@@ -4,6 +4,7 @@
 |:---|:---|
 |2022-02-10| kick off. |
 |2022-02-11| reading section 1,2,3. |
+|2022-02-14| reading section 4,5,6,7,8. |
 
 <!--
 Purugganan M, Hewitt J. How to read a scientific article[J]. Rice University, 2004.
@@ -263,39 +264,469 @@ NUMA: Non-Uniform Memory Access
 #### 3.7 Discussion and Additional Material
 
 ### 4 Relational Query Processor
+
+1. a relational query processor takes a decalrative SQL statement, validates it,
+2. optimizes it into a procedural dataflow execution plan, and
+3. executes that dataflow program on behalf of a client program.
+4. the client program then feteches/pulls the result tuples, typically one at a time or in small batches.
+
+major components:
+
+- query parsing and authorization
+- query rewrite
+- query optimizer
+- plan executor
+- DDL and utility processing
+
+in general, relational query processing can be viewed as a single-user, single-thread task, except when the DBMS must explicitly **pin/unpin** buffer pool pages so that they remain resident in memory.
+
+focus on DML(Data Manipulation Language): `SELECT`, `INSERT`, `UPDATE`, `DELETE`.
+
 #### 4.1 Query Parsing and Authorization
+
+given an SQL statement, the main taks for the SQL parser:
+
+1. check that the query is correctly specified,
+2. resolve names and references,
+3. convert the query into the internal format used by the optimizer,
+4. verify that the user is authorized to execute the query.
+
+canonicalize table names: `server.database.schema.table`
+
 #### 4.2 Query Rewrite
+
+simplifying and normalizing the query without changing its semantics.
+
+usually output an internal representation of the query in the same internal format that it accepted as its input.
+
+main responsibilities:
+
+- view expansion
+
+- constant arithmetic evaluation: `R.x < 10+2+R.y` => `R.x < 12+R.y`
+
+- logical rewriting of predicates: `NOT Emp.Salary > 1000000` => `Emp.Salary <= 1000000`, `Emp.Salary < 75000 AND Emp.Salary > 1000000` => `FALSE`, `R.x < 10 AND R.x = S.y` => add `AND S.y < 10`
+
+- semantic optimization: redundant join elimination
+
+``` sql
+-- foreign key constraint: Emp.deptno -> Dept.dno
+SELECT Emp.name, Emp.Salary
+FROM Emp, Dept
+WHERE Emp.deptno = Dept.dno
+
+-- =>
+SELECT Emp.name, Emp.Salary
+FROM Emp
+```
+
+- subquery flattening and other heuristic rewrites
+
+> PRECONDITION: to keep complexity of optimization bounded, most optimizer operate on individual `SELECT-FROM-WHERE` query blocks in isolation and do not optimize across blocks.
+
+**query normalization**: rewrite quries into a form better suited for the optimizer, examples:
+
+(1) rewrite semantically equivalent queries into **a canonical form**, in an effor to ensure that semantically equivalent queries whill be optimized to produce that same query plan.
+
+(2) **flatten nested queries** when possible to maximally expose opportunities for the query optimizer's single-block optimization
+
 #### 4.3 Query Optimizer
+
+responsibility: transform an internal query representation in to an efficient **query plan** for exuecuting the query.
+
+a **query plan** can be thought of as **a dataflow diagram** that pipes table data through a graph of **query operators**.
+
+to enable cross-platform portability, every major DBMS new compiles queries into some kind of interpretable data structures:
+
+- a very lightweight object, not unlike a relational algebraic expression,
+- a lower-level language of op-codes
+
+
+extensions to System R optitizer:
+
+- plan space
+
+left-deep query plans -> bushy trees with nested right-hand inputs
+
+postponing Cartesian products -> early use of Cartesian products
+
+- selectivity estimation
+
+simple table and index cardinalities -> distribution of values in attributes via histograms and other summary statistics
+
+- search algorithms
+
+dynamic programming optimization approach -> a goal-directed top-down search scheme, heuristic search schemes
+
+- parallelism
+
+-> parallel processing, intra-query parallelism
+
+- auto-tuning
+
+-> the ability of a DBMS to make tunning decisions automatically
+
 #### 4.4 Query Executor
+
+the query executor operates on a fully-specified query plan.
+
+representation of query plan:
+
+- a directed dataflow graph: connect operators that encapsulate base-table access and various query execution algorithms. - focus
+- low-level op-codes
+
+the **iterator** model:
+
+``` c++
+class iterator {
+  iterator &inputs[];
+  void init();
+  tuple get_next();
+  void close();
+};
+```
+
+all operators in a query plan are implemented as subclasses of the `iterator` class:
+
+- file scan
+- index scan
+- sort
+- nested loop join
+- merge join
+- hash join
+- duplicate elimination
+- grouped aggregation
+
+> example: PostgreSQL
+
+##### 4.4.1 Iterator Discussion
+
+iterators couple data flow iwth control flow.
+
+a single DBMS thread is needed to execute an entire query graph.
+
+##### 4.4.2 Where's the Data?
+
+how tuples were stored in memory? how the were passed between iterators?
+
+**tuple descriptors**:
+
+- each iterator is pre-allocated a fixed number of tuple descriptors, one for each of its inputs or output,
+- a tuple descriptor is **an array of column references**, where each column reference is composed of a reference to a tuple somewhere else in memory, and a column offset in that tuple.
+
+
+(1) BP-tuples
+
+tuples reside in pages in the buffer pool
+
+(2) M-tuple
+
+allocate space for a tuple on the memory heap
+
+##### 4.4.3 Data Modification Statements
+
+`INSERT`, `DELETE`, `UPDATE` statements
+
+halloween probleam: give everyone whose salary is under $20K at 10% raise.
+
+> SQL semantics: a single SQL statement is not allowed to "see" its own updates.
+
+``` sql
+UPDATE EMP
+SET Salary = Salary * 1.1
+WHERE Salary < 20000
+```
+
 #### 4.5 Access Methods
+
+**access methods** are the **routines** that manage access to the various disk-based data structures that the system supports. include unordered files(heaps), various kinds of indexes.
+
+the basic API:
+
+``` c++
+// iterator
+void init(search-argument);
+tuple get_next();
+```
+
+ways to **point** to rows in a base table:
+
+- RIDs: direct row IDs, physical disk addresses of the rows in the base tables,
+- use the row primary key: avoid the problems that row movement causes.
+
+access methods have deep interactions with the concurrency and recovery logic surrounding transactions.
+
 #### 4.6 Data Warehouses
+
+Warehouses deal with history, OLTP deals with "now".
+
+##### 4.6.1 Bitmap Indexes
+
+situation: data warehouses often have columns with a small number of values,
+
+example: the sex of a customer. this can be represented by one bit per record in a bitmap.
+
+bitmaps are advantageous for conjunctive filters:
+
+``` sql
+-- intersecting bitmaps to determine the result set
+Customer.sex = "F" and Customer.state = "California"
+```
+
+##### 4.6.2 Fast Load
+
+bulk-loadable warehouse
+
+"real time" warehouse: avoid update-in-place, provide historical queries.
+
+##### 4.6.3 Materialized Views
+
+materialized views take are actual tables taht can be queries, but which correspond to a logical view expression over the true base data tables. the materialzied view must be kept up to date as updates are performed.
+
+3 aspects for usage:
+
+- (a) selecting the views to materialzie,
+- (b) maintainning the freshness of the views,
+- (c) considering the use of materialized views in ad-hoc queries.
+
+##### 4.6.4 OLAP and Ad-hoc Query Support
+
+ad-hoc queries: formulated on the fly by business analysts.
+
+OLAP: on-line analytical processing.
+
+##### 4.6.5 Optimization of Snowflake Schema Queries
+
+**star schema**:
+
+- facts: "customer X bought product Y from store Z at time T"
+- central fact table: records information about each fact, such as the purchase price, discount, sales tax information, etc.
+- also in the fact table are foreign keys for each **dismensions**, including customers, products, stores, time, etc.
+
+**snowflake schema**: multi-level star.
+
+##### 4.6.6 Data Warehousing: Conclusions
+
 #### 4.7 Database Extensibility
+
+> Relational databases have traditionally been viewed as being limited in the kinds of data they store, focused mostly on the "facts and figures" used in corporate and administrative record-keeping.
+
+
+##### 4.7.1 Abstract Data Types
+
+extensible to new abstract data types (ADT) at runtime, the DBMS type system has to be driven from the system catalog, which maintains the list of types known to the system, and pointers to the methods used to manipulate the types.
+
+##### 4.7.2 Structured Types and XML
+
+non-relationsal structured types:
+
+- nested collection types: arrays, sets, trees,
+- nested tuples,
+- nested relations.
+
+3 approaches to handling structured types like XML:
+
+1. build a custom database system that operates on data with structured types;
+2. treat the complex type as an ADT;
+3. normalize the nested structure into a set of relations upon insertion, with foreign keys connecting sub-objects to their parents.
+
+##### 4.7.3 Full-Text Search
+
+an inverted file relation with tuples `(word, documentID, position)`.
+
+##### 4.7.4 Additional Extensibility Issues
+
+- extensible query optimizer;
+- the ability for the database to wrap remote data sources within the schema as if they were native tables, and access them during query processing.
+
 #### 4.8 Standard Practice
+
+coarse architecture: similar to the System R prototype
+
+in the open source arena: PostgreSQL, MySQL.
+
 #### 4.9 Discussion and Additional Material
 
 ### 5 Storage Management
+
+2 basic types of DBMS storage managers in commercial use:
+
+- (1) the DBMS interacts directly with the low-level block mode device drivers for the disks: caw-mode access, or
+- (2) the DBMS uses standarad OS file system facilities.
+
 #### 5.1 Spatial Control
+
+> The best way for the DBMS to control spatial locality of its data is to store the data directly to the "raw" disk device and avoid the file system entirely.
+
+> An alternative to raw disk access is for the DBMS to create a very large file in the OS file system, and to manage positioning of data as offsets in that file.
+
+
+customly set the database page size to a size appropriate for the exprected work load.
+
 #### 5.2 Temporal Control: Buffering
+
+> In addition to controlling **where** on the disk data should be placed, a DBMS must control **when** data gets physically written to the disk.
+
+most OS file systems provide built-in **I/O buffering mechanisms** to decide when to do reads and writes of file blocks.
+
+most OS files system typically have some built-in support for **read-ahead** (speculative reads) and **write-behind** (delayed, batched writes).
+
 #### 5.3 Buffer Management
+
+> In order to provide  access to database pages, every DBMS implements a large shared buffer pool in its own memory space.
+
 #### 5.4 Standard Practice
 #### 5.5 Discussion and Additional Material
 
 ### 6 Transactions: Concurrency Control and Recovery
+
+the truly monolithic piece of a DBMS is the transactional storage manager that typically encompasses 4 deeply interwinded components:
+
+1. a lock manager for concurrency control,
+2. a log manager for recovery,
+3. a buffer pool for staging database I/Os,
+4. access methods for organizing data on disk.
+
 #### 6.1 A Note on ACID
 #### 6.2 A Brief Review of Serializability
+
+**serializability** is the well-defined textbook notion of correctness fro concurrent transactions.
+
+> It dictates that a sequence of interleaved actions for multiple committing transactions must correspond to some serial executions of the transactions - as though there were no parallel execution at all.
+
+> A transaction is said to execute in isolation if it does not see any concurrency anomalies.
+
+3 broad techniques of concurrency control enforment:
+
+- S2PL (Strict two-phase locking),
+- MVCC (Multi-Version Concurrency Control),
+- OCC (Optimistic Concurrency Control).
+
 #### 6.3 Locking and Latching
+
+lock manager support 2 basic calls:
+
+```
+lock(lockname, transactionID, mode)
+remove_transaction(transactionID)
+
+unlock(lockname, transactionID)
+lock_upgrade(lockname, transactionID, newmode)
+conditional_lock(lockname, transactionID, mode)
+```
+
+lock manager maintains 2 data structures:
+
+- **a global lock table**: a dynamic hash table keyed by lock names, associated with each lock is a **mode flag** to indicate the lock mode, and a **wait queue** of lock request pairs `(tansactionID, mode)`
+- **a transaction table**: keyed by transactionID, which contains 2 items for each transaction T, (1) a pointer to T's DBMS thread state, (2) a list of pointers to all of T's lock requests in the lock table.
+
+a deadlock detector DBMS thread
+
+lighter-weight **latches** are used to provide exclusive access to internal DBMS data structures, for example, the buffer pool page table has a latch associated with each frame, to guarantee that only one DBMS thread is replacing a given frame at any time.
+
+latch API:
+
+```
+latch(object, mode)
+unlantch(object)
+conditional_latch(object, mode)
+```
+
+> distinguish between locks and latches.
+
+##### 6.3.1 Transaction Isolation Levels
+
+ANSI SQL standard defines 4 isolation levels:
+
+1. READ UNCOMMITTED
+2. READ COMMITTED
+3. REPEATABLE READ
+4. SERIALIZABLE
+
+vendors provides isolation levels:
+
+- CURSOR STABILITY
+- SNAPSHOT ISOLATION
+- READ CONSISTENCY
+
 #### 6.4 Log Manager
+
+the log manager is responsible for:
+
+- maintaining the durability of committed transactions,
+- facilitating the rollback of aborted transaction to ensure atomicity,
+- recovering from system failure or non-orderly shutdown.
+
+a Write-Ahead Logging (WAL) protocol
+
+challenge is to guarantee efficiency in the fast path for transactions that commit, while also providing high-performance rollback for aborted transaction, and quick recovery after crashes.
+
 #### 6.5 Locking and Logging in Indexes
+
+> The only invariant that index concurrency and recovery needs to preserve is that the index always returns transactionally consistent tuples from the database.
+
+##### 6.5.1 Latching in B+-Trees
+
+key insight: modifications to the tree's physical structure can be made in a non-transactional manner as long as all concurrent transactions continue to find the correct data at the leaves.
+
+3 approaches:
+
+1. conservative schemes,
+2. latch-coupling schemes,
+3. right-link schemes.
+
+##### 6.5.2 Logging for Physical Structures
+
+> The main idea is that structural index changes need not be undone when the associated transaction is aborted; such changes can often have no effect on the database tuples seen by other transactions.
+
+##### 6.5.3 Next-Key Locking: Physical Surrogates for Logical Properties
+
+the phantom problem
+
+next-key locking in B+-trees: an insertion of a tuple with index key k must allocate an exclusive lock on the next-key tuple that exists in the index, where the next-key tuple has the lowest key greater than k.
+
+next-key locking is an example of using a physical object (a currently-storead tuple) as a surrogate for a logical concept (a predicate).
+
 #### 6.6 Interdependencies of Transactional Storage
+
+discuss a few of the interdependencies between the 3 main aspects of a transactional storage system: concurrency control, recovery management, access methods.
+
 #### 6.7 Standard Practice
+
+PostgreSQL: use MVCC
+
 #### 6.8 Discussion and Additional Material
 
 ### 7 Shared Components
 #### 7.1 Catalog Manager
+
+the database catalog holds information about data in the system and is a form of metadata.
+
 #### 7.2 Memory Allocator
+
+context-based memory allocator: more efficient and easier to debug.
+
 #### 7.3 Disk Management Subsystems
+
+in practice, disk drives are complex and heterogeneous pieces of hardware that vary widely in capacity and bankwidth.
+
 #### 7.4 Replication Services
+
+3 typical schemes for replication:
+
+1. physical replication,
+2. trigger-based replication,
+3. log-based replication.
+
 #### 7.5 Administration, Monitoring, and Utilities
+
+utilities:
+
+- optimizer statistics gathering
+- physical reorganization and index construction
+- backup, export
+- bulk load
+- monitroing, tuning, resource governers.
 
 ### 8 Conclusion
 
@@ -339,9 +770,33 @@ example: a gate agent clicks on a form to request the passenger list for a fligh
 
 a number of shared components and utilities that are vital to the operation of a full-function DBMS
 
+### Fig. 4.1 A Query plan. Only the main physical operators are shown.
+
+![Fig. 4.1 A Query plan](./images/DBMSArch-Fig. 4.1 A Query plan.png)
+
+``` sql
+SELECT D.DeptName,
+  AVG(E.Salary) AS AvgSal
+FROM Emp E, DEPT D
+WHERE E.Dno = D.DeptID
+GROUP BY DeptName
+ORDER BY AvgSal DESC
+```
 
 ## 引用的重要文献
 
 <!-- cite those obviously related to your topic AND any papers frequently cited by others because those works may well prove to be essential as you develop your own work -->
+
+System R optimizer: `[79]`
+
+query potimization short survy: `[10]`
+
+query execution survey: `[24]`
+
+bitmap processing: `[65]`
+
+ARIES: `[59]`
+
+Principles of transaction-oriented database recovery: `[34]`
 
 ## 其他备注
