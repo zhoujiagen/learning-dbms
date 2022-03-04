@@ -26,7 +26,7 @@ nav:
       - 'What Every Programmer Should Know About Memory': overview/ProgrammerMemory.md
       - 'Bigtable: A Distributed Storage System for Structured Data': overview/Bigtable.md
       - 'Understanding InnoDB clustered indexes': overview/InnodbIndex.md
-    - 'Data and File Formats':
+    - 'File Formats':
       - 'Home': data-file-formats/index.md
       - 'Dynamic storage allocation': data-file-formats/dynamic_storage_allocation.md
       - 'File Structures(C++)': data-file-formats/file-structure/file-structures-cpp.md
@@ -40,6 +40,14 @@ nav:
           - 'InnoDB Record and Page Structure': data-file-formats/examples/mysql/mysql-innodb-record-and-page-structure.md
           - 'Client/Server Protocol': data-file-formats/examples/mysql/mysql-client-server-protocol.md
           - 'Binary Log': data-file-formats/examples/mysql/mysql-binary-log.md
+    - 'Transaction':
+      - 'Benchmarks on Database Transactions': transaction/TransactionBenchmark.md
+      - 'Transaction Processing: Concepts and Techniques': transaction/TPCT.md
+      - 'ARIES': transaction/aries.md
+      - 'Transactional Information Systems: Theory, Algorithms, and the Practice of Concurrency Control and Recovery': transaction/TIS.md
+    - 'Log-Structured Storage':
+      - 'The log-structured merge-tree (LSM-tree)': log-structured-storage/LSMTree.md
+      - 'LSM-based Storage Techniques: A Survey': log-structured-storage/LSMSurvey.md
     - 'Query Processing':
       - Parse:
         - 'Modeling in RDFS and OWL': query/parse/rdfs_owl.md
@@ -47,10 +55,6 @@ nav:
         - 'Logica': query/parse/logica.md
       - Optimization:
         - 'Query Optimization': query/optimization/query-optimization.md
-    - 'Transaction':
-      - 'Transaction Processing: Concepts and Techniques': transaction/TPCT.md
-      - 'ARIES': transaction/aries.md
-      - 'Transactional Information Systems: Theory, Algorithms, and the Practice of Concurrency Control and Recovery': transaction/TIS.md
     - 'Implementations':
       - 'MySQL':
         - 'Manual':
